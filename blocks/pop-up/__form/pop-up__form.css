@@ -1,0 +1,20 @@
+.pop-up__form {
+  display: flex;
+  position: relative;
+  margin: 195px auto auto;
+  flex-direction: column;
+  min-width: 430px;
+  background: #FFFFFF;
+  color: black;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  border-radius: 10px;
+  z-index: 2;
+}
+
+@media screen and (max-width: 700px) {
+  .pop-up__form {
+    margin-top: 123px;
+    min-width: 282px;
+  }
+}

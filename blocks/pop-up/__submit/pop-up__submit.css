@@ -1,0 +1,23 @@
+.pop-up__submit {
+  max-width: 358px;
+  max-height: 50px;
+  background-color: white;
+  margin: 0 auto;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 18px;
+  padding-bottom: 37px;
+}
+
+.pop-up__submit:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+  .pop-up__submit {
+    width: 238px;
+    height: 46px;
+    padding-bottom: 25px;
+  }
+}

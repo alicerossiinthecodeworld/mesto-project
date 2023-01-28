@@ -1,0 +1,25 @@
+.pop-up__input {
+  margin: 0px 0px 30px 36px;
+  padding: 0px 0px 10px;
+  max-height: 15px;
+  max-width: 358px;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  border-bottom: 1px solid #000000 .2;
+}
+
+.pop-up__input::placeholder {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: black;
+}
+
+@media screen and (max-width: 700px) {
+  .pop-up__input {
+    margin-left: 22px;
+    margin-right: 22px;
+  }
+}
