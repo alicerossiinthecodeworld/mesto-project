@@ -1,79 +1,69 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0">
   <link rel="stylesheet" href="./pages/index.css">
   <title>Место</title>
 </head>
+
 <body class="page">
   <header class="header">
     <img class="header__logo" src="./images/Vector.svg" alt="логотип Место">
-    <img class="header__line" src="./images/line.jpg" alt="линия ограничения">
   </header>
   <main class="content">
     <section class="profile">
-      <div class="profile__avatar">
-        <img src="./images/kusto.jpg" alt="аватар" class="profile__avatar-image">
-      </div>
+      <img src="./images/kusto.jpg" alt="аватар" class="profile__avatar-image">
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
         <p class="profile__description">Исследователь океана</p>
       </div>
-      <img class="profile__edit-button" src="./images/Edit_Button.svg" alt="кнопка редактировать">
-      <img class="profile__add-button" src="./images/Add_Button.svg" alt="кнопка добавить">
-    </section>
-    <section class="pop-up pop-up_opened">
-      <div class="pop-up__form">
-        <h2 class="pop-up__title">Редактировать профиль</h2>
-        <input type="text" placeholder='Жак-Ив Кусто' class="pop-up__input"></input>
-        <input type="text" placeholder='Исследователь океана' class="pop-up__input"></input>
-        <img class="pop-up__submit" src="./images/submit.png" alt="сохранить">
-        <img class = "pop-up__close"  src="./images/Close Icon.svg" alt="закрыть">
-      </div>
+      <button class="profile__edit-button"></button>
+      <button class="profile__add-button"></button>
     </section>
     <section class="cards">
       <ul class="cards__gallery">
         <li class="cards__item">
           <img class="cards__picture" src="./images/karachaevsk.jpg" alt="Карачаевск">
           <div class="cards__text-zone">
-            <p class="cards__text">Карачаевск</p>
-            <img class="cards__like-button" src="./images/like.svg" alt="лайк">
-          </div>
-        </li>
-        <li class="cards__item">
-          <img class="cards__picture" src="./images/elbrus.png" alt="Эльбрус">
-            <div class="cards__text-zone">
-              <p class="cards__text">Гора Эльбрус</p>
-              <img class="cards__like-button" src="./images/like.svg" alt="лайк">
-            </div>
-        </li>
-        <li class="cards__item">
-          <img class="cards__picture" src="./images/dombai.png" alt="Домбай">
-          <div class="cards__text-zone">
-            <p class="cards__text">Домбай</p>
-            <img class="cards__like-button" src="./images/like.svg" alt="лайк">
+            <h2 class="cards__text">Карачаевск</h2>
+            <button class="cards__like-button"></button>
           </div>
         </li>
         <li class="cards__item">
           <img class="cards__picture" src="./images/elbrus.png" alt="Эльбрус">
           <div class="cards__text-zone">
-            <p class="cards__text">Гора Эльбрус</p>
-            <img class="cards__like-button" src="./images/like.svg" alt="лайк">
+            <h2 class="cards__text">Гора Эльбрус</h2>
+            <button class="cards__like-button"></button>
           </div>
         </li>
         <li class="cards__item">
           <img class="cards__picture" src="./images/dombai.png" alt="Домбай">
           <div class="cards__text-zone">
-            <p class="cards__text">Домбай</p>
-            <img class="cards__like-button" src="./images/like.svg" alt="лайк">
-          </div>        
+            <h2 class="cards__text">Домбай</h2>
+            <button class="cards__like-button"></button>
+          </div>
+        </li>
+        <li class="cards__item">
+          <img class="cards__picture" src="./images/elbrus.png" alt="Эльбрус">
+          <div class="cards__text-zone">
+            <h2 class="cards__text">Гора Эльбрус</h2>
+            <button class="cards__like-button"></button>
+          </div>
+        </li>
+        <li class="cards__item">
+          <img class="cards__picture" src="./images/dombai.png" alt="Домбай">
+          <div class="cards__text-zone">
+            <h2 class="cards__text">Домбай</h2>
+            <button class="cards__like-button"></button>
+          </div>
         </li>
         <li class="cards__item">
           <img class="cards__picture" src="./images/karachaevsk.jpg" alt="карачаевск">
           <div class="cards__text-zone">
-            <p class="cards__text">Карачаево-Черкессия</p>
-            <img class="cards__like-button" src="./images/like.svg" alt="лайк">
+            <h2 class="cards__text">Карачаево-Черкессия</h2>
+            <button class="cards__like-button"></button>
           </div>
         </li>
       </ul>
@@ -82,4 +72,13 @@
   <footer class="footer">
     <p class="footer__copyright">© 2020 Mesto Russia</p>
   </footer>
+  <section class="pop-up">
+    <div class="pop-up__form">
+      <h2 class="pop-up__title">Редактировать профиль</h2>
+      <input type="text" placeholder='Жак-Ив Кусто' class="pop-up__input">
+      <input type="text" placeholder='Исследователь океана' class="pop-up__input">
+      <button class="pop-up__submit"></button>
+      <button class="pop-up__close"></button>
+    </div>
+  </section>
 </body>
