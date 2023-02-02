@@ -8,11 +8,12 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  justify-self: center;
 }
 
 @media screen and (max-width: 700px) {
   .profile__info{
-    margin: 0px 0px 0px 65px;
     width: 189px;
+    margin-left: 25px;
   }
 }
