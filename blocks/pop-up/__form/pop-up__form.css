@@ -19,6 +19,7 @@
   .pop-up__form {
     width: 282px;
     min-width: auto;
-    margin-bottom: 0px;
-  }
+    margin: 0 auto;
+    min-height: 322px; 
+    }
 }

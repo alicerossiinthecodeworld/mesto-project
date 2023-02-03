@@ -1,14 +1,14 @@
 .pop-up__submit {
-  max-width: 358px;
-  margin: 18px auto 37px;
-  width: 100%;
-  height: 50px;
-  background-image: url("../../../images/submit.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-color: transparent;
-  background-repeat: no-repeat;
+  margin: 0 auto 35px;
+  padding: 14px 134px 18px 135px;
+  background-color: black;
+  border-radius: 2px;
   border: 0;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #FFFFFF;
 }
 
 .pop-up__submit:hover {
@@ -18,12 +18,11 @@
 
 @media screen and (max-width: 700px) {
   .pop-up__submit {
-    width: 238px;
-    height: 46px;
-    background-image: url("../../../images/mobile-submit-button.svg");
-    margin-top: 10px;
-    margin-bottom: 15px;
     margin-left: 20px;
-    padding: 0;
+    padding: 14px 82px 14px;
+    font-size: 14px;
+    line-height: 17px;
+    margin-bottom: 25px;
+    margin-top: 15px;
   }
 }

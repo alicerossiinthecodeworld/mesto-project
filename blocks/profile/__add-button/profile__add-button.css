@@ -18,11 +18,19 @@
   cursor: pointer;
 }
 
+@media screen and (max-width: 1000px) {
+  .profile__add-button{
+    margin: 0 auto;
+    margin-top: 5px;
+  }
+}
+
+
 @media screen and (max-width: 700px) {
   .profile__add-button{
     width: 320px;
     background-image: url(../../../images/add_button_mobile.svg);
     margin-left: 19px;
-    margin-bottom: 0px;
+    margin-right: 19px;
   }
 }
