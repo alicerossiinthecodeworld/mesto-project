@@ -15,3 +15,10 @@
   max-width: 210px;
   width: calc(100% - 21px);
 }
+
+@media screen and (max-width: 700px) {
+  .cards__text-zone {
+    margin: 0;
+    padding: 0;
+  }
+}

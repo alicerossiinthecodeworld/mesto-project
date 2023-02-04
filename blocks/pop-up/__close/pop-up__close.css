@@ -1,4 +1,4 @@
-.pop-up__close{
+.pop-up__close {
   min-width: 32px;
   min-height: 32px;
   position: absolute;
@@ -6,10 +6,11 @@
   right: -40px;
   background-image: url("../../../images/close.svg");
   background-repeat: no-repeat;
-  background-size: contain;
+  background-position: center;
   background-color: transparent;
-  background-repeat: no-repeat;
+  background-size: contain;
   border: 0;
+  z-index: 2;
 }
 
 .pop-up__close:hover {
@@ -22,6 +23,6 @@
     min-width: 20px;
     min-height: 20px;
     top: -35px;
-    right: 0px;
+    right: 20px;
   }
 }

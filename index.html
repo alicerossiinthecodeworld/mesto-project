@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0">
   <link rel="stylesheet" href="./pages/index.css">
   <title>Место</title>
 </head>
+
 <body class="page">
   <header class="header">
     <img class="header__logo" src="./images/Vector.svg" alt="логотип Место">
@@ -70,13 +72,15 @@
   <footer class="footer">
     <p class="footer__copyright">© 2020 Mesto Russia</p>
   </footer>
-  <form class="pop-up">
-    <div class="pop-up__form">
-      <h2 class="pop-up__title">Редактировать профиль</h2>
-      <input type="text" placeholder='Имя' name = 'name' class="pop-up__input">
-      <input type="text" placeholder='Профессия' name = 'profession'  class="pop-up__input">
-      <button class="pop-up__submit" type="submit">Сохранить</button>
+  <div class="pop-up pop-up_opened">
+    <div class="pop-up__container">
       <button class="pop-up__close" type="button"></button>
+      <form name="profile_edit-form" class="pop-up__form">
+        <h2 class="pop-up__title">Редактировать профиль</h2>
+        <input type="text" placeholder='Имя' name='name' class="pop-up__input">
+        <input type="text" placeholder='Профессия' name='profession' class="pop-up__input">
+        <button class="pop-up__submit" type="submit">Сохранить</button>
+      </form>
     </div>
-  </form>
+  </div>
 </body>

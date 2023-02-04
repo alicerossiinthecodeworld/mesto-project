@@ -1,6 +1,5 @@
 .pop-up__form {
   display: flex;
-  position: relative;
   flex-direction: column;
   justify-content: space-evenly;
   min-width: 430px;
@@ -20,6 +19,6 @@
     width: 282px;
     min-width: auto;
     margin: 0 auto;
-    min-height: 322px; 
-    }
+    min-height: 322px;
+  }
 }
