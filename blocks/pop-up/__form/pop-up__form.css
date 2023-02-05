@@ -1,17 +1,14 @@
 .pop-up__form {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   min-width: 430px;
   background: #FFFFFF;
   color: black;
-  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
   box-sizing: border-box;
-  border-radius: 10px;
-  z-index: 2;
-  margin: 0 auto 10px;
-  min-height: 330px;
+  margin: 0 auto 0px;
   padding: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 @media screen and (max-width: 700px) {
@@ -19,6 +16,5 @@
     width: 282px;
     min-width: auto;
     margin: 0 auto;
-    min-height: 322px;
   }
 }
