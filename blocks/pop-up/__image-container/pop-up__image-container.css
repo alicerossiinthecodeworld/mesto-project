@@ -1,0 +1,10 @@
+.pop-up__image-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 75vw;
+  max-height: 75vh;
+  z-index: 10;
+  position: relative;
+}
+
