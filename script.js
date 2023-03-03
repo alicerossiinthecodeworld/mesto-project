@@ -1,18 +1,22 @@
 // открытие и закрытие поп-апа редактирования профиля
-const profileEditPopUp = document.querySelector('.pop-up:has(form.pop-up__form[name="profile_edit-form"])');
-const profileEditClose = document.querySelector('.pop-up:has(form.pop-up__form[name="profile_edit-form"]) .pop-up__close');
+const profileEditPopUp = document.querySelector('.profile-edit-pop-up');
+const profileEditClose = profileEditPopUp.querySelector('.pop-up__close');
 const profileEditButton = document.querySelector('.profile__edit-button');
-const profileEditSubmitButton = document.querySelector('.pop-up:has(form.pop-up__form[name="profile_edit-form"]) .pop-up__submit')
+const profileEditSubmitButton = profileEditPopUp.querySelector('.pop-up__submit')
 const nameInput = profileEditPopUp.querySelector('.pop-up__input[name="name"]');
 const jobInput = profileEditPopUp.querySelector('.pop-up__input[name="profession"]');
 const cardsTemplate = document.querySelector('#card-template');
 const cardsList = document.querySelector('.cards__gallery');
 const cardAddButton = document.querySelector('.profile__add-button');
-const cardAddPopUp = document.querySelector('.pop-up:has(form.pop-up__form[name="card_add-form"])');
-const cardAddClose = document.querySelector('.pop-up:has(form.pop-up__form[name="card_add-form"]) .pop-up__close');
-const cardAddSubmitButton = document.querySelector('.pop-up:has(form.pop-up__form[name="card_add-form"]) .pop-up__submit')
+const cardAddPopUp = document.querySelector('.card-add-pop-up');
+const cardAddClose = cardAddPopUp.querySelector('.pop-up__close');
+const cardAddSubmitButton = cardAddPopUp.querySelector('.pop-up__submit')
 const titleInput = document.querySelector('.pop-up__input[name="title"]');
 const linkInput = document.querySelector('.pop-up__input[name="link"]');
+const imageContainer = document.querySelector('.pop-up__image-container');
+const imagePopUp = document.querySelector('.image-pop-up');
+const imageClose = imagePopUp.querySelector('.pop-up__close');
+
 
 profileEditButton.addEventListener("click", () => {
   profileEditPopUp.classList.add('pop-up_opened');
@@ -36,12 +40,6 @@ profileEditSubmitButton.addEventListener('click', formSubmitHandler);
 
 
 // добавление карточек
-
-
-const imageContainer = document.querySelector('.pop-up__image-container');
-const imagePopUp = document.querySelector('.pop-up:has(.pop-up__image-container)');
-const closeButton = imagePopUp.querySelector('.pop-up__close');
-
 const initialCards = [
   {
     name: 'Архыз',
@@ -102,7 +100,7 @@ createCard(initialCards);
 function openImage(event) {
   let imgSrc = event.target.getAttribute("src");
   let image = document.querySelector(".pop-up__image");
-  closeButton.addEventListener('click', closeImage);
+  imageClose.addEventListener('click', closeImage);
   image.setAttribute('src', imgSrc);
   imagePopUp.classList.add('pop-up_opened');
 }
