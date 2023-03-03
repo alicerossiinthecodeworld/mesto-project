@@ -42,11 +42,6 @@ const imageContainer = document.querySelector('.pop-up__image-container');
 const imagePopUp = document.querySelector('.pop-up:has(.pop-up__image-container)');
 const closeButton = imagePopUp.querySelector('.pop-up__close');
 
-function closeImage() {
-  imageContainer.innerHTML = '';
-  imagePopUp.classList.remove('pop-up_opened');
-}
-
 const initialCards = [
   {
     name: 'Архыз',
@@ -115,7 +110,6 @@ function openImage(event) {
 
 
 function closeImage() {
-  imageContainer.innerHTML = '';
   imagePopUp.classList.remove('pop-up_opened');
 }
 
@@ -160,6 +154,16 @@ function addCard(evt) {
   linkInput.value = '';
 
   cardAddPopUp.classList.remove('pop-up_opened');
+
+  const likeButtons = document.querySelectorAll('.cards__like-button');
+  likeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      button.classList.toggle('cards__like-button_active');
+    });
+  });
+  document.querySelectorAll('.cards__picture').forEach(image => {
+    image.addEventListener('click', openImage);
+  });
 }
 
 cardAddSubmitButton.addEventListener('click', addCard);
