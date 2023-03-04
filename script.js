@@ -1,5 +1,6 @@
 // открытие и закрытие поп-апа редактирования профиля
 const profileEditPopUp = document.querySelector('.profile-edit-pop-up');
+const profileEditForm = profileEditPopUp.querySelector('.pop-up__form');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileEditSubmitButton = profileEditPopUp.querySelector('.pop-up__submit')
 const nameInput = profileEditPopUp.querySelector('.pop-up__input[name="name"]');
@@ -14,8 +15,10 @@ const linkInput = document.querySelector('.pop-up__input[name="link"]');
 const imageContainer = document.querySelector('.pop-up__image-container');
 const imagePopUp = document.querySelector('.image-pop-up');
 const imageClose = imagePopUp.querySelector('.pop-up__close');
+const image = document.querySelector(".pop-up__image");
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__description');
+const imageText = document.querySelector('.pop-up__image-text');
 
 function closePopUp(popUp) {
   popUp.classList.remove('pop-up_opened');
@@ -49,7 +52,7 @@ function handleProfileFormSubmit(evt) {
   closePopUp(profileEditPopUp);
 }
 
-profileEditSubmitButton.addEventListener('click', handleProfileFormSubmit);
+profileEditForm.addEventListener('submit', handleProfileFormSubmit);
 
 
 // добавление карточек
@@ -90,6 +93,7 @@ function createSingleCard(cardData) {
   if (cardData.link) {
     cardImage.src = cardData.link;
   }
+  cardImage.alt = cardData.name;
   const cardText = card.querySelector('.cards__text');
   cardText.textContent = cardData.name;
 
@@ -111,13 +115,13 @@ function createCard(cardsData) {
 createCard(initialCards);
 
 function openImage(event) {
-  let imgSrc = event.target.getAttribute("src");
-  let image = document.querySelector(".pop-up__image");
-  imageClose.addEventListener('click', closeImage);
+  const imgSrc = event.target.getAttribute("src");
+  const imgAlt = event.target.getAttribute("alt");
   image.setAttribute('src', imgSrc);
+  image.setAttribute('alt', imgAlt);
+  imageText.textContent = imgAlt;
   openPopUp(imagePopUp);
 }
-
 
 
 function closeImage() {
