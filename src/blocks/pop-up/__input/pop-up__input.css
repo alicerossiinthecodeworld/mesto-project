@@ -1,5 +1,5 @@
 .pop-up__input {
-  margin: 0px 36px 30px;
+  margin: 0px 36px 0px;
   padding: 0px 0px 9px;
   max-width: 100%;
   border-top: 0;
@@ -18,7 +18,7 @@
     margin-right: 22px;
     padding-bottom: 10px;
     padding-top: 0;
-    margin-bottom: 30px;
+    margin-bottom: 0px;
     margin-top: 0px;
   }
 }

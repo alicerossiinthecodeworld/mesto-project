@@ -4,17 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0">
-  <link rel="stylesheet" href="./pages/index.css">
   <title>Место</title>
 </head>
 
 <body class="page">
   <header class="header">
-    <img class="header__logo" src="./images/Vector.svg" alt="логотип Место">
+    <img class="header__logo" src="<%=require('./images/Vector.svg')%>" alt="логотип Место">
   </header>
   <main class="content">
     <section class="profile">
-      <img src="./images/kusto.jpg" alt="аватар" class="profile__avatar-image">
+      <img src="<%=require('./images/kusto.jpg')%>" alt="аватар" class="profile__avatar-image">
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
         <p class="profile__description">Исследователь океана</p>
@@ -44,8 +43,10 @@
       <button class="pop-up__close" type="button"></button>
       <h2 class="pop-up__title">Редактировать профиль</h2>
       <form name="profile_edit-form" class="pop-up__form">
-        <input type="text" placeholder='Имя' name='name' class="pop-up__input">
-        <input type="text" placeholder='Профессия' name='profession' class="pop-up__input">
+        <input type="text" placeholder='Имя' name='name' class="pop-up__input" required>
+        <span class="pop-up__error"></span>
+        <input type="text" placeholder='Профессия' name='profession' class="pop-up__input" required>
+        <span class="pop-up__error"></span>
         <button class="pop-up__submit" type="submit">Сохранить</button>
       </form>
     </div>
@@ -55,8 +56,10 @@
       <button class="pop-up__close" type="button"></button>
       <h2 class="pop-up__title">Новое место</h2>
       <form name="card_add-form" class="pop-up__form">
-        <input type="text" placeholder='Название' name='title' class="pop-up__input">
-        <input type="text" placeholder='Ссылка на картинку' name='link' class="pop-up__input">
+        <input type="text" placeholder='Название' name='title' class="pop-up__input" required>
+        <span class="pop-up__error"></span>
+        <input type="text" placeholder='Ссылка на картинку' name='link' class="pop-up__input" required>
+        <span class="pop-up__error"></span>
         <button class="pop-up__submit" type="submit">Сохранить</button>
       </form>
     </div>
@@ -70,5 +73,4 @@
       </figure>
     </div>
   </div>
-  <script src="script.js"></script>
 </body>
