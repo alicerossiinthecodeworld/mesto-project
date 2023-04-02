@@ -1,7 +1,7 @@
 import('../pages/index.css');
 import {createCard, addCard, cardAddButton, cardAddForm, cardAddPopUp, titleInput, linkInput} from './card.js';
 import {openPopUp, closePopUp} from './modal.js';
-import { profileEditPopUp, nameInput, jobInput, profileEditForm, checkNameValidity, checkDescriptionValidity, checkTitleValidity, checkLinkInputValidity, checkFormValidity} from './validate.js';
+import { profileEditPopUp, nameInput, jobInput, profileEditForm, checkNameValidity, checkDescriptionValidity, checkTitleValidity, checkLinkInputValidity, enableValidation} from './validate.js';
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileName = document.querySelector('.profile__name');
@@ -24,7 +24,7 @@ profileEditButton.addEventListener("click", () => {
   jobInput.isValid = true;
   nameInput.addEventListener('input', checkNameValidity);
   jobInput.addEventListener('input', checkDescriptionValidity);
-  profileEditForm.addEventListener('input', () => checkFormValidity(nameInput,jobInput));
+  profileEditForm.addEventListener('input', () => enableValidation(nameInput,jobInput));
 }); 
 
 
@@ -32,7 +32,7 @@ profileEditButton.addEventListener("click", () => {
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   // Проверка валидности полей ввода перед отправкой формы
-  if (checkFormValidity(nameInput, jobInput)) {
+  if (enableValidation(nameInput, jobInput)) {
     profileName.textContent = nameInput.value;
     profileJob.textContent = jobInput.value;
     closePopUp(profileEditPopUp);
@@ -80,7 +80,7 @@ cardAddButton.addEventListener("click", () => {
   openPopUp(cardAddPopUp);
   titleInput.addEventListener('input', checkTitleValidity);
   linkInput.addEventListener('input', checkLinkInputValidity);
-  cardAddForm.addEventListener('input', () => checkFormValidity(titleInput, linkInput));
+  cardAddForm.addEventListener('input', () => enableValidation(titleInput, linkInput));
 });
 
 cardAddForm.addEventListener('submit', addCard);

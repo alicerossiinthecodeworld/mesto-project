@@ -22,7 +22,7 @@ function invalidCharError(input, value){
 }
 
 
-export function checkFormValidity(...inputs) {
+export function enableValidation(...inputs) {
   let isFormValid = true;
   inputs.forEach(input => {
     if (!input.isValid) {
@@ -118,3 +118,4 @@ export function checkLinkInputValidity(){
     linkInput.isValid = true;
   }
 }
+

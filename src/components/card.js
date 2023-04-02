@@ -1,5 +1,5 @@
 import {openPopUp, closePopUp} from './modal.js';
-import { checkFormValidity} from './validate.js';
+import { enableValidation} from './validate.js';
 
 const cardsTemplate = document.querySelector('#card-template');
 const cardsList = document.querySelector('.cards__gallery');
@@ -16,7 +16,7 @@ export function addCard(evt) {
   evt.preventDefault();
 
   // Проверяем валидность формы перед добавлением карточки
-  if (checkFormValidity(titleInput,linkInput)) {
+  if (enableValidation(titleInput,linkInput)) {
 
     const cardData = {
       name: titleInput.value,
