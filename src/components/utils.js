@@ -1,12 +1,13 @@
-export function blockSubmitButton(){
-  const submitButton = document.querySelector('.pop-up__submit');
+export function blockSubmitButton() {
+  const submitButton = event.target.closest('.pop-up').querySelector('.pop-up__submit');
   submitButton.classList.add('pop-up__submit_inavailible');
 }
 
-export function unlockSubmitButton(){
-  const submitButton = document.querySelector('.pop-up__submit');
+export function unlockSubmitButton() {
+  const submitButton = event.target.closest('.pop-up').querySelector('.pop-up__submit');
   submitButton.classList.remove('pop-up__submit_inavailible');
 }
+
 export const showInputError = (inputElement, errorMessage) => {
   const errorElement = document.querySelector(`.${inputElement.name}-error`);
   inputElement.classList.add('pop-up__input_error');

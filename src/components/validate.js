@@ -1,8 +1,10 @@
 import { showInputError, hideInputError, blockSubmitButton, unlockSubmitButton} from "./utils";
+import { titleInput, linkInput } from "./card";
 export const profileEditPopUp = document.querySelector('.profile-edit-pop-up');
 export const nameInput = profileEditPopUp.querySelector('.pop-up__input[name="name"]');
 export const jobInput = profileEditPopUp.querySelector('.pop-up__input[name="profession"]');
 export const profileEditForm = profileEditPopUp.querySelector('.pop-up__form');
+
 
 //валидация формы редактирования профиля
 function checkSymbolsNumber( value, min, max) {
@@ -20,16 +22,19 @@ function invalidCharError(input, value){
 }
 
 
-export function checkProfileEditForm() {
-  // console.log(nameInput.isValid);
-  // console.log(jobInput.isValid);
-  if (nameInput.isValid && jobInput.isValid) {
+export function checkFormValidity(...inputs) {
+  let isFormValid = true;
+  inputs.forEach(input => {
+    if (!input.isValid) {
+      isFormValid = false;
+    }
+  });
+  if (isFormValid) {
     unlockSubmitButton();
-    return true;
   } else {
     blockSubmitButton();
-    return false;
   }
+  return isFormValid;
 }
 
 export function checkNameValidity() {
@@ -74,5 +79,42 @@ export function checkDescriptionValidity() {
   } 
   else {
     hideInputError(jobInput);
+  }
+}
+
+export function checkTitleValidity(){
+  const regex = /^[a-zA-Zа-яА-ЯёЁ-\s]+$/;
+  const value = titleInput.value;
+  titleInput.isValid = false;
+  if (!value) {
+    showInputError(titleInput, 'Вы забыли заполнить это поле');
+    titleInput.isValid = false;
+  }
+  else if (checkSymbolsNumber(value, 2, 30)) {
+    const errorMessage = `Должно быть от 2 до 30 символов`;
+    showInputError(titleInput, errorMessage);
+    titleInput.isValid = false;
+  }
+  else if (!regex.test(value)) {
+    invalidCharError(titleInput, value);
+    titleInput.isValid = false;
+  }
+  else {
+    hideInputError(titleInput);
+    titleInput.isValid = true;
+  }
+}
+
+export function checkLinkInputValidity(){
+  const value = linkInput.value;
+  const isURL = /^(ftp|http|https):\/\/[^ "]+$/.test(value);
+  linkInput.isValid = false;
+  if (!isURL) {
+    const errorMessage = 'введите валидный Url';
+    showInputError(linkInput, errorMessage);
+  }
+  else {
+    hideInputError(linkInput);
+    linkInput.isValid = true;
   }
 }
