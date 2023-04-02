@@ -1,4 +1,4 @@
-import {openPopUp, closePopUp} from './utils.js';
+import {openPopUp, closePopUp} from './modal.js';
 
 
 const cardsTemplate = document.querySelector('#card-template');
@@ -8,9 +8,7 @@ export const cardAddPopUp = document.querySelector('.card-add-pop-up');
 export const cardAddForm= cardAddPopUp.querySelector('.pop-up__form');
 const titleInput = document.querySelector('.pop-up__input[name="title"]');
 const linkInput = document.querySelector('.pop-up__input[name="link"]');
-const imageContainer = document.querySelector('.pop-up__image-container');
 const imagePopUp = document.querySelector('.image-pop-up');
-const imageClose = imagePopUp.querySelector('.pop-up__close');
 const image = document.querySelector(".pop-up__image");
 const imageText = document.querySelector('.pop-up__image-text');
 

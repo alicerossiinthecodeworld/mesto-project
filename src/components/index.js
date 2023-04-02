@@ -1,15 +1,12 @@
 import('../pages/index.css');
 import {createCard, addCard, cardAddButton, cardAddForm, cardAddPopUp} from './card.js';
-import {openPopUp, closePopUp} from './utils.js';
+import {openPopUp, closePopUp} from './modal.js';
+import { blockSubmitButton } from './utils.js';
+import { profileEditPopUp, nameInput, jobInput, profileEditForm, checkNameValidity, checkDescriptionValidity, checkProfileEditForm} from './validate.js';
 
-const profileEditPopUp = document.querySelector('.profile-edit-pop-up');
-const profileEditForm = profileEditPopUp.querySelector('.pop-up__form');
 const profileEditButton = document.querySelector('.profile__edit-button');
-const nameInput = profileEditPopUp.querySelector('.pop-up__input[name="name"]');
-const jobInput = profileEditPopUp.querySelector('.pop-up__input[name="profession"]');
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__description');
-const imageText = document.querySelector('.pop-up__image-text');
 const closeButtons = document.querySelectorAll('.pop-up__close');
 
 
@@ -20,23 +17,28 @@ closeButtons.forEach((button) => {
   button.addEventListener('click', () => closePopUp(popUp));
 });
 
-
 profileEditButton.addEventListener("click", () => {
   openPopUp(profileEditPopUp);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-});
+  nameInput.isValid = true;
+  jobInput.isValid = true;
+  nameInput.addEventListener('input', checkNameValidity);
+  jobInput.addEventListener('input', checkDescriptionValidity);
+  profileEditForm.addEventListener('input', checkProfileEditForm);
+}); 
+
 
 //редактирование профиля
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
+  // Проверка валидности полей ввода перед отправкой формы
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
+  nameInput.addEventListener('input', checkNameValidity);
+  jobInput.addEventListener('input', checkDescriptionValidity);
   closePopUp(profileEditPopUp);
 }
-
-profileEditForm.addEventListener('submit', handleProfileFormSubmit);
-
 
 // добавление карточек
 const initialCards = [
@@ -81,4 +83,4 @@ cardAddButton.addEventListener("click", () => {
 
 
 cardAddForm.addEventListener('submit', addCard);
-
+profileEditForm.addEventListener('submit', handleProfileFormSubmit);
