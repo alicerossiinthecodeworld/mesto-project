@@ -33,11 +33,11 @@ profileEditButton.addEventListener("click", () => {
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   // Проверка валидности полей ввода перед отправкой формы
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
-  nameInput.addEventListener('input', checkNameValidity);
-  jobInput.addEventListener('input', checkDescriptionValidity);
-  closePopUp(profileEditPopUp);
+  if (checkProfileEditForm()) {
+    profileName.textContent = nameInput.value;
+    profileJob.textContent = jobInput.value;
+    closePopUp(profileEditPopUp);
+  }
 }
 
 // добавление карточек
