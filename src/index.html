@@ -41,7 +41,7 @@
     <div class="pop-up__container">
       <button class="pop-up__close" type="button"></button>
       <h2 class="pop-up__title">Редактировать профиль</h2>
-      <form name="profile_edit-form" class="pop-up__form">
+      <form name="profile_edit-form" class="pop-up__form" novalidate>
         <input type="text" placeholder='Имя' name='name' class="pop-up__input" required>
         <span class="pop-up__error name-error"></span>
         <input type="text" placeholder='Профессия' name='profession' class="pop-up__input" required>
@@ -54,7 +54,7 @@
     <div class="pop-up__container">
       <button class="pop-up__close" type="button"></button>
       <h2 class="pop-up__title">Новое место</h2>
-      <form name="card_add-form" class="pop-up__form">
+      <form name="card_add-form" class="pop-up__form" novalidate>
         <input type="text" placeholder='Название' name='title' class="pop-up__input" required>
         <span class="pop-up__error title-error"></span>
         <input type="text" placeholder='Ссылка на картинку' name='link' class="pop-up__input" required>
