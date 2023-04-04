@@ -5,5 +5,5 @@
 }
 
 .pop-up__submit_inavailible:hover {
-  opacity: 1;
+  opacity: 0.3;
   cursor: not-allowed;}
