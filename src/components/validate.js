@@ -4,11 +4,15 @@ export function checkValidity(input, submitButton, config) {
 
   if (input.name === 'name') {
     if (!input.value) {
-      showInputError(input, 'Вы забыли заполнить это поле', submitButton, config);
+      showInputError(input, 'Вы пропустили это поле', submitButton, config);
       return false;
     }
-    if (symbols < 2 || symbols > 40) {
-      showInputError(input, 'Должно быть от 2 до 40 символов', submitButton, config);
+    if (symbols < 2) {
+      showInputError(input, 'Минимальное количество символов 2, сейчас ' + symbols, submitButton, config);
+      return false;
+    }
+    if (symbols > 40) {
+      showInputError(input, 'Должно быть до 40 символов, сейчас ' + symbols, submitButton, config);
       return false;
     }
     if (!regex.test(input.value)) {
@@ -20,11 +24,15 @@ export function checkValidity(input, submitButton, config) {
 
   if (input.name === 'profession') {
     if (!input.value) {
-      showInputError(input, 'Вы забыли заполнить это поле', submitButton, config);
+      showInputError(input, 'Вы пропустили это поле', submitButton, config);
       return false;
     }
-    if (symbols < 2 || symbols > 200) {
-      showInputError(input, 'Должно быть от 2 до 200 символов', submitButton, config);
+    if (symbols < 2) {
+      showInputError(input, 'Минимальное количество символов 2, сейчас ' + symbols, submitButton, config);
+      return false;
+    }
+    if (symbols > 200) {
+      showInputError(input, 'Должно быть до 200 символов, сейчас ' + symbols, submitButton, config);
       return false;
     }
     if (!regex.test(input.value)) {
@@ -36,11 +44,15 @@ export function checkValidity(input, submitButton, config) {
 
   if (input.name === 'title') {
     if (!input.value) {
-      showInputError(input, 'Вы забыли заполнить это поле',submitButton, config);
+      showInputError(input, 'Вы пропустили это поле',submitButton, config);
       return false;
     }
-    if (symbols < 2 || symbols > 30) {
-      showInputError(input, 'Должно быть от 2 до 30 символов', submitButton, config);
+    if (symbols < 2) {
+      showInputError(input, 'Минимальное количество символов 2, сейчас ' + symbols, submitButton, config);
+      return false;
+    }
+    if (symbols > 30) {
+      showInputError(input, 'Должно быть до 30 символов, сейчас ' + symbols, submitButton, config);
       return false;
     }
     if (!regex.test(input.value)) {
@@ -53,7 +65,7 @@ export function checkValidity(input, submitButton, config) {
   if (input.name === 'link') {
     const isURL = /^(ftp|http|https):\/\/[^ "]+$/.test(input.value);
     if (!isURL) {
-      showInputError(input, 'Введите валидный Url', submitButton, config);
+      showInputError(input, 'Введите адрес сайта', submitButton, config);
       return false;
     }
   }
@@ -91,7 +103,7 @@ export function hideInputError(input, config) {
   inputElement.classList.remove(config.inputErrorClass);
 };
 
-  
+
 export function enableValidation(config) {
   const forms = Array.from(document.querySelectorAll(config.formSelector));
   forms.forEach((form) => {

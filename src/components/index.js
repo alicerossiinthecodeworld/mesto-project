@@ -34,7 +34,6 @@ profileEditButton.addEventListener("click", () => {
   jobInput.value = profileJob.textContent;
 }); 
 
-// добавление карточек
 const initialCards = [
   {
     name: 'Архыз',
@@ -68,8 +67,6 @@ const initialCards = [
 
 
 createCard(initialCards);
-
-//добавление карточки
 
 cardAddButton.addEventListener("click", () => {
   openPopUp(cardAddPopUp);
