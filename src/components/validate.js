@@ -1,121 +1,124 @@
-import { showInputError, hideInputError, blockSubmitButton, unlockSubmitButton} from "./utils";
-import { titleInput, linkInput } from "./card";
-export const profileEditPopUp = document.querySelector('.profile-edit-pop-up');
-export const nameInput = profileEditPopUp.querySelector('.pop-up__input[name="name"]');
-export const jobInput = profileEditPopUp.querySelector('.pop-up__input[name="profession"]');
-export const profileEditForm = profileEditPopUp.querySelector('.pop-up__form');
+export function checkValidity(input, submitButton, config) {
+  const regex = /^[a-zA-Zа-яА-ЯёЁ-\s]+$/;
+  const symbols = input.value.length;
 
-
-//валидация формы редактирования профиля
-function checkSymbolsNumber( value, min, max) {
-  const symbols = value.length;
-  return symbols < min || symbols > max
-}
-
-function invalidCharError(input, value){
-  console.log('invalidCharError: input', input);
-  console.log('invalidCharError: value', value);
-  const invalidChar = value.match(/[^a-zA-Zа-яА-ЯёЁ-\s]/);
-  console.log('invalidCharError: invalidChar', invalidChar);
-  const errorMessage = `Недопустимый символ "${invalidChar[0]}"`;
-  showInputError(input, errorMessage);
-}
-
-
-export function enableValidation(...inputs) {
-  let isFormValid = true;
-  inputs.forEach(input => {
-    if (!input.isValid) {
-      isFormValid = false;
+  if (input.name === 'name') {
+    if (!input.value) {
+      showInputError(input, 'Вы забыли заполнить это поле', submitButton, config);
+      return false;
     }
+    if (symbols < 2 || symbols > 40) {
+      showInputError(input, 'Должно быть от 2 до 40 символов', submitButton, config);
+      return false;
+    }
+    if (!regex.test(input.value)) {
+      const errorMessage = "Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы";
+      showInputError(input, errorMessage, submitButton, config);
+      return false;
+    }
+  }
+
+  if (input.name === 'profession') {
+    if (!input.value) {
+      showInputError(input, 'Вы забыли заполнить это поле', submitButton, config);
+      return false;
+    }
+    if (symbols < 2 || symbols > 200) {
+      showInputError(input, 'Должно быть от 2 до 200 символов', submitButton, config);
+      return false;
+    }
+    if (!regex.test(input.value)) {
+      const errorMessage = "Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы";
+      showInputError(input, errorMessage, submitButton, config);
+      return false;
+    }
+  }
+
+  if (input.name === 'title') {
+    if (!input.value) {
+      showInputError(input, 'Вы забыли заполнить это поле',submitButton, config);
+      return false;
+    }
+    if (symbols < 2 || symbols > 30) {
+      showInputError(input, 'Должно быть от 2 до 30 символов', submitButton, config);
+      return false;
+    }
+    if (!regex.test(input.value)) {
+      const errorMessage = "Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы";
+      showInputError(input, errorMessage, submitButton, config);
+      return false;
+    }
+  }
+
+  if (input.name === 'link') {
+    const isURL = /^(ftp|http|https):\/\/[^ "]+$/.test(input.value);
+    if (!isURL) {
+      showInputError(input, 'Введите валидный Url', submitButton, config);
+      return false;
+    }
+  }
+
+  hideInputError(input, config);
+  return true;
+}
+
+
+export function blockSubmitButton(submitButton, inactiveButtonClass) {
+  console.log(submitButton);
+  submitButton.classList.add(inactiveButtonClass);
+}
+
+export function unlockSubmitButton(submitButton, inactiveButtonClass) 
+{
+  submitButton.classList.remove(inactiveButtonClass);
+}
+export function showInputError(inputElement, errorMessage, submitButton, config) {
+  const errorElement = document.querySelector(`.${inputElement.name}-error`);
+  inputElement.classList.add(config.inputErrorClass);
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add(config.errorClass);
+  blockSubmitButton(submitButton, config.inactiveButtonClass);
+};
+
+export function hideInputError(input, config) {
+  const inputElement = input.target || input;
+  const errorElement = document.querySelector(`.${inputElement.name}-error`);
+  ;
+  if (errorElement) {
+    errorElement.classList.remove(config.errorClass);
+    errorElement.textContent = '';
+  }
+  inputElement.classList.remove(config.inputErrorClass);
+};
+
+  
+export function enableValidation(config) {
+  const forms = Array.from(document.querySelectorAll(config.formSelector));
+  forms.forEach((form) => {
+    form.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+    });
+    const inputs = Array.from(form.querySelectorAll(config.inputSelector));
+    const submitButton = form.querySelector(config.submitButtonSelector);
+
+    function handleFormInput(event) {
+      const input = event.target;
+      input.isValid = checkValidity(input, submitButton, config);
+      const isFormValid = inputs.every(input => input.isValid);
+      isFormValid ? unlockSubmitButton(submitButton, config.inactiveButtonClass) : blockSubmitButton(submitButton, config.inactiveButtonClass);
+    }
+
+    function handleFormSubmit(event) {
+      event.preventDefault();
+    }
+
+    inputs.forEach(input => {
+      input.isValid = true;
+      input.addEventListener('input', handleFormInput);
+    });
+
+    form.addEventListener('submit', handleFormSubmit);
+
+    blockSubmitButton(submitButton, config.inactiveButtonClass);
   });
-  if (isFormValid) {
-    unlockSubmitButton();
-  } else {
-    blockSubmitButton();
-  }
-  return isFormValid;
 }
-
-export function checkNameValidity() {
-  const regex = /^[a-zA-Zа-яА-ЯёЁ-\s]+$/;
-  const value = nameInput.value;
-  nameInput.isValid = true;
-  if (!value) {
-    showInputError(nameInput, 'Вы забыли заполнить это поле');
-    nameInput.isValid = false;
-  }
-  else if (checkSymbolsNumber(value, 2, 40)) {
-    const errorMessage = `Должно быть от 2 до 40 символов`;
-    showInputError(nameInput, errorMessage);
-    nameInput.isValid = false;
-  }
-  else if (!regex.test(value)) {
-    invalidCharError(nameInput, value);
-    nameInput.isValid = false;
-  } 
-  else {
-    hideInputError(nameInput);
-    nameInput.isValid = true;
-  }
-}
-
-export function checkDescriptionValidity() {
-  const regex = /^[a-zA-Zа-яА-ЯёЁ-\s]+$/;
-  const value = jobInput.value;
-  jobInput.isValid = true;
-  if (!value) {
-    showInputError(jobInput, 'Вы забыли заполнить это поле');
-    jobInput.isValid = false;
-  }
-  else if (checkSymbolsNumber(value, 2, 200)) {
-    const errorMessage = `Должно быть от 2 до 200 символов`;
-    showInputError(jobInput, errorMessage);
-    jobInput.isValid = false;
-  }
-  else if (!regex.test(value)) {
-    invalidCharError(jobInput, value);
-    jobInput.isValid = false;
-  } 
-  else {
-    hideInputError(jobInput);
-  }
-}
-
-export function checkTitleValidity(){
-  const regex = /^[a-zA-Zа-яА-ЯёЁ-\s]+$/;
-  const value = titleInput.value;
-  titleInput.isValid = false;
-  if (!value) {
-    showInputError(titleInput, 'Вы забыли заполнить это поле');
-    titleInput.isValid = false;
-  }
-  else if (checkSymbolsNumber(value, 2, 30)) {
-    const errorMessage = `Должно быть от 2 до 30 символов`;
-    showInputError(titleInput, errorMessage);
-    titleInput.isValid = false;
-  }
-  else if (!regex.test(value)) {
-    invalidCharError(titleInput, value);
-    titleInput.isValid = false;
-  }
-  else {
-    hideInputError(titleInput);
-    titleInput.isValid = true;
-  }
-}
-
-export function checkLinkInputValidity(){
-  const value = linkInput.value;
-  const isURL = /^(ftp|http|https):\/\/[^ "]+$/.test(value);
-  linkInput.isValid = false;
-  if (!isURL) {
-    const errorMessage = 'введите валидный Url';
-    showInputError(linkInput, errorMessage);
-  }
-  else {
-    hideInputError(linkInput);
-    linkInput.isValid = true;
-  }
-}
-

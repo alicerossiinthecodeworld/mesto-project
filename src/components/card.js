@@ -1,11 +1,10 @@
-import {openPopUp, closePopUp} from './modal.js';
-import { enableValidation} from './validate.js';
+import { openPopUp, closePopUp } from './modal.js';
 
 const cardsTemplate = document.querySelector('#card-template');
 const cardsList = document.querySelector('.cards__gallery');
 export const cardAddButton = document.querySelector('.profile__add-button');
 export const cardAddPopUp = document.querySelector('.card-add-pop-up');
-export const cardAddForm= cardAddPopUp.querySelector('.pop-up__form');
+export const cardAddForm = cardAddPopUp.querySelector('.pop-up__form');
 export const titleInput = document.querySelector('.pop-up__input[name="title"]');
 export const linkInput = document.querySelector('.pop-up__input[name="link"]');
 const imagePopUp = document.querySelector('.image-pop-up');
@@ -14,31 +13,25 @@ const imageText = document.querySelector('.pop-up__image-text');
 
 export function addCard(evt) {
   evt.preventDefault();
+  const cardData = {
+    name: titleInput.value,
+    link: linkInput.value
+  };
 
-  // Проверяем валидность формы перед добавлением карточки
-  if (enableValidation(titleInput,linkInput)) {
+  const card = createSingleCard(cardData);
+  cardsList.prepend(card);
 
-    const cardData = {
-      name: titleInput.value,
-      link: linkInput.value
-    };
+  evt.target.reset()
 
-    const card = createSingleCard(cardData);
-    cardsList.prepend(card);
-
-    evt.target.reset()
-
-    closePopUp(cardAddPopUp);
-  }
+  closePopUp(cardAddPopUp);
 }
+
 
 
 export function createSingleCard(cardData) {
   const card = cardsTemplate.content.cloneNode(true);
   const cardImage = card.querySelector('.cards__picture');
-  if (cardData.link) {
-    cardImage.src = cardData.link;
-  }
+  cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
   const cardText = card.querySelector('.cards__text');
   cardText.textContent = cardData.name;

@@ -1,8 +1,8 @@
-import {hideInputError} from "./utils";
+import {hideInputError} from "./validate";
 
-export function closePopUp(popUp) {
+export function closePopUp(popUp, config) {
   const errorInputs = popUp.querySelectorAll('.pop-up__input_error');
-  errorInputs.forEach((input) => { hideInputError(input); })
+  errorInputs.forEach((input) => { hideInputError(input, config); })
   popUp.classList.remove('pop-up_opened');
   document.removeEventListener('keydown', handleEscKey);
   popUp.removeEventListener('click', handleClickOverlay);
