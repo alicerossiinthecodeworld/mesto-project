@@ -1,7 +1,7 @@
 import('../pages/index.css');
-import {createCard, addCard, cardAddButton, cardAddForm, cardAddPopUp} from './card.js';
-import {openPopUp, closePopUp} from './modal.js';
-import {enableValidation} from './validate.js';
+import { createCard, addCard, cardAddButton, cardAddForm, cardAddPopUp, titleInput, linkInput } from './card.js';
+import { openPopUp, closePopUp } from './modal.js';
+import { enableValidation, handleFormInput } from './validate.js';
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileName = document.querySelector('.profile__name');
@@ -10,6 +10,7 @@ const closeButtons = document.querySelectorAll('.pop-up__close');
 const profileEditPopUp = document.querySelector('.profile-edit-pop-up');
 const nameInput = profileEditPopUp.querySelector('.pop-up__input[name="name"]');
 const jobInput = profileEditPopUp.querySelector('.pop-up__input[name="profession"]');
+const profileEditForm = profileEditPopUp.querySelector('.pop-up__form');
 
 export const config = {
   formSelector: '.pop-up__form',
@@ -28,11 +29,21 @@ closeButtons.forEach((button) => {
   button.addEventListener('click', () => closePopUp(popUp, config));
 });
 
+function handleProfileFormSubmit(evt) {
+  evt.preventDefault();
+  profileName.textContent = nameInput.value;
+  profileJob.textContent = jobInput.value;
+  closePopUp(profileEditPopUp, config);
+}
+
+
 profileEditButton.addEventListener("click", () => {
   openPopUp(profileEditPopUp);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-}); 
+  nameInput.isValid = handleFormInput(nameInput, config);
+  profileEditForm.addEventListener('submit', handleProfileFormSubmit)
+});
 
 const initialCards = [
   {
@@ -70,9 +81,9 @@ createCard(initialCards);
 
 cardAddButton.addEventListener("click", () => {
   openPopUp(cardAddPopUp);
+  titleInput.isValid= handleFormInput(titleInput, config);
+  cardAddForm.addEventListener('submit', addCard);
 });
-
-cardAddForm.addEventListener('submit', addCard);
 
 document.addEventListener('DOMContentLoaded', () => {
   enableValidation(config);

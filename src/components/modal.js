@@ -1,4 +1,5 @@
-import {hideInputError} from "./validate";
+import { hideInputError, enableValidation } from "./validate";
+import { config } from "./index";
 
 export function closePopUp(popUp, config) {
   const errorInputs = popUp.querySelectorAll('.pop-up__input_error');
@@ -18,13 +19,13 @@ function handleEscKey(event) {
   if (event.key === 'Escape') {
     const activePopUp = document.querySelector('.pop-up_opened');
     if (activePopUp) {
-      closePopUp(activePopUp);
+      closePopUp(activePopUp, {});
     }
   }
 }
 
 function handleClickOverlay(event) {
   if (event.target === event.currentTarget) {
-    closePopUp(event.currentTarget);
+    closePopUp(event.currentTarget, {});
   }
 }
