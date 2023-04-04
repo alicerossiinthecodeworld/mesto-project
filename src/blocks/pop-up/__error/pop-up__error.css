@@ -2,9 +2,11 @@
   color: #FF0000;
   font-size: 12px;
   line-height: 15px;
-  margin: 0px 36px 30px;
+  min-height: 15px;
+  margin: 10px 36px 10px;
   max-width: 100%;
   visibility: hidden;
+  padding: 10px 0px 5px;
 }
 
 @media screen and (max-width: 700px) {
