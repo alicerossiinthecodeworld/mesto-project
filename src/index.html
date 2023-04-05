@@ -42,9 +42,9 @@
       <button class="pop-up__close" type="button"></button>
       <h2 class="pop-up__title">Редактировать профиль</h2>
       <form name="profile_edit-form" class="pop-up__form" novalidate>
-        <input type="text" placeholder='Имя' name='name' class="pop-up__input" required>
+        <input type="text" placeholder='Имя' name='name' class="pop-up__input" minlength="2" maxlength="40" pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" required>
         <span class="pop-up__error name-error"></span>
-        <input type="text" placeholder='Профессия' name='profession' class="pop-up__input" required>
+        <input type="text" placeholder='Профессия' name='profession' class="pop-up__input" minlength="2" maxlength="200" pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" required>
         <span class="pop-up__error profession-error"></span>
         <button class="pop-up__submit" type="submit">Сохранить</button>
       </form>
@@ -55,9 +55,9 @@
       <button class="pop-up__close" type="button"></button>
       <h2 class="pop-up__title">Новое место</h2>
       <form name="card_add-form" class="pop-up__form" novalidate>
-        <input type="text" placeholder='Название' name='title' class="pop-up__input" required>
+        <input type="text" placeholder='Название' name='title' class="pop-up__input" minlength="2" maxlength="30" pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" required>
         <span class="pop-up__error title-error"></span>
-        <input type="text" placeholder='Ссылка на картинку' name='link' class="pop-up__input" required>
+        <input type="url" placeholder='Ссылка на картинку' name='link' class="pop-up__input" required>
         <span class="pop-up__error link-error"></span>
         <button class="pop-up__submit" type="submit">Сохранить</button>
       </form>

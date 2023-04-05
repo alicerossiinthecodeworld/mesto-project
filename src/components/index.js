@@ -23,9 +23,7 @@ export const config = {
 };
 
 closeButtons.forEach((button) => {
-  // находим 1 раз ближайший к крестику попап 
   const popUp = button.closest('.pop-up');
-  // устанавливаем обработчик закрытия на крестик
   button.addEventListener('click', () => closePopUp(popUp, config));
 });
 
@@ -81,7 +79,6 @@ createCard(initialCards);
 
 cardAddButton.addEventListener("click", () => {
   openPopUp(cardAddPopUp);
-  titleInput.isValid= handleFormInput(titleInput, config);
   cardAddForm.addEventListener('submit', addCard);
 });
 
