@@ -7,7 +7,7 @@ export const cardAddPopUp = document.querySelector('.card-add-pop-up');
 export const cardAddForm = cardAddPopUp.querySelector('.pop-up__form');
 export const titleInput = document.querySelector('.pop-up__input[name="title"]');
 export const linkInput = document.querySelector('.pop-up__input[name="link"]');
-const imagePopUp = document.querySelector('.image-pop-up');
+const imagePopUp = document.querySelector('.pop-up_type_image');
 const image = document.querySelector(".pop-up__image");
 const imageText = document.querySelector('.pop-up__image-text');
 

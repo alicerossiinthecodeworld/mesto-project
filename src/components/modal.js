@@ -1,5 +1,4 @@
-import { hideInputError, enableValidation } from "./validate";
-import { config } from "./index";
+import { hideInputError} from "./validate";
 
 export function closePopUp(popUp, config) {
   const errorInputs = popUp.querySelectorAll('.pop-up__input_error');

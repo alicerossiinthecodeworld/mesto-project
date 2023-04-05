@@ -37,3 +37,5 @@
 @import url("../blocks/pop-up/__error/_visible/pop-up__error_visible.css");
 @import url("../blocks/pop-up/__submit/_inavalible/pop-up__submit_inavailible.css");
 @import url("../blocks/pop-up/__input/_error/pop-up__input_error.css");
+@import url("../blocks/pop-up/_type/pop-up_type_image.css");
+@import url("../blocks/pop-up/__figure/pop-up__figure.css");
