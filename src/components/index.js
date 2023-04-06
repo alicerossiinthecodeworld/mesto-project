@@ -1,7 +1,7 @@
 import('../pages/index.css');
 import { createCard, addCard, cardAddButton, cardAddForm, cardAddPopUp, titleInput, linkInput } from './card.js';
 import { openPopUp, closePopUp, handleClickOverlay, handleEscKey } from './modal.js';
-import { enableValidation} from './validate.js';
+import { enableValidation, hideInputError} from './validate.js';
 
 
 export const config = {
@@ -38,8 +38,8 @@ function handleProfileFormSubmit(evt) {
 
 
 profileEditButton.addEventListener("click", () => {
-  const errorInputs = profileEditPopUp.querySelectorAll(config.inputErrorClass);
-  errorInputs.forEach((input) => { hideInputError(input, config); })
+  const inputs = profileEditPopUp.querySelectorAll(config.inputSelector);
+  inputs.forEach((input) => { hideInputError(input, config); })
   openPopUp(profileEditPopUp);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
@@ -81,8 +81,10 @@ const initialCards = [
 createCard(initialCards);
 
 cardAddButton.addEventListener("click", () => {
-  const errorInputs = cardAddPopUp.querySelectorAll(config.inputErrorClass);
-  errorInputs.forEach((input) => { hideInputError(input, config); })
+  titleInput.value=''
+  linkInput.value=''
+  const inputs = cardAddPopUp.querySelectorAll(config.inputSelector);
+  inputs.forEach((input) => { hideInputError(input, config); })
   openPopUp(cardAddPopUp);
   cardAddForm.addEventListener('submit', addCard);
 });
