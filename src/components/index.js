@@ -1,8 +1,8 @@
 import('../pages/index.css');
 import { createCard, addCard, cardAddButton, cardAddForm, cardAddPopUp, titleInput, linkInput } from './card.js';
-import { openPopUp, closePopUp, handleClickOverlay, handleEscKey } from './modal.js';
+import { openPopUp, closePopUp, handleClickOverlay } from './modal.js';
 import { blockSubmitButton, enableValidation, hideInputError} from './validate.js';
-
+import { getUser, getCards, updateProfile} from './api.js';
 
 export const config = {
   popUpSelector: '.pop-up', 
@@ -23,6 +23,7 @@ const profileEditPopUp = document.querySelector('.profile-edit-pop-up');
 const nameInput = profileEditPopUp.querySelector('.pop-up__input[name="name"]');
 const jobInput = profileEditPopUp.querySelector('.pop-up__input[name="profession"]');
 const profileEditForm = profileEditPopUp.querySelector('.pop-up__form');
+const profileAvatar = document.querySelector('.profile__avatar-image');
 
 closeButtons.forEach((button) => {
   const popUp = button.closest('.pop-up');
@@ -31,11 +32,18 @@ closeButtons.forEach((button) => {
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
-  closePopUp(profileEditPopUp);
-}
 
+  const name = nameInput.value;
+  const about = jobInput.value;
+
+  updateProfile(name, about)
+  .then(userData => {
+    profileName.textContent = userData.name;
+    profileJob.textContent = userData.about;
+    closePopUp(profileEditPopUp);
+    setUserInfo();
+  });
+}
 
 profileEditButton.addEventListener("click", () => {
   const inputs = profileEditPopUp.querySelectorAll(config.inputSelector);
@@ -46,39 +54,6 @@ profileEditButton.addEventListener("click", () => {
   profileEditForm.addEventListener('submit', handleProfileFormSubmit)
 });
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  },
-  {
-    name: 'Гуадалканал',
-    link: 'https://www.orangesmile.com/common/img_cities_w300/guadalcanal-island-6559-4.jpg'
-  }
-];
-
-
-createCard(initialCards);
 
 cardAddButton.addEventListener("click", () => {
   titleInput.value=''
@@ -95,8 +70,38 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-cardAddForm.addEventListener('submit', addCard);
+cardAddForm.addEventListener('submit', (evt) => {
+  addCard(evt);
+});
+
+
 const popUpList = document.querySelectorAll(config.popUpSelector);
 popUpList.forEach((popUp) => {
   popUp.addEventListener('click', handleClickOverlay);
 });
+
+window.addEventListener('load', () => {
+  setUserInfo();
+  setUserCards();
+});
+
+function setUserInfo() {
+  getUser().then((result) => {
+    profileName.textContent = result.name;
+    profileJob.textContent = result.about;
+    profileAvatar.src = result.avatar;
+  });
+}
+
+export function setUserCards() {
+  let initialCards;
+
+  getCards()
+    .then(result => {
+      initialCards = result;
+      createCard(initialCards);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}

@@ -1,0 +1,49 @@
+export const apiconfig = {
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-22',
+  headers: {
+    authorization: '2c63f497-70a5-4968-bb2d-b0ce27af4805',
+    'Content-Type': 'application/json'
+  }
+}
+
+export function getUser(){
+  return fetch(`${apiconfig.baseUrl}/users/me`, {
+    headers: apiconfig.headers
+  })
+  .then(res => res.json())
+  .then((result) => {
+    return result;
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+}
+
+export function updateProfile(name, about) {
+  return fetch(`${apiconfig.baseUrl}/users/me`, {
+    method: 'PATCH',
+    headers: apiconfig.headers,
+    body: JSON.stringify({
+      name,
+      about
+    })
+  })
+  .catch(error => {
+    console.log('Error:', error);
+  });
+}
+
+export function getCards(){
+  {
+    return fetch(`${apiconfig.baseUrl}/cards`, {
+      headers: apiconfig.headers
+    })
+    .then(res => res.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+}
