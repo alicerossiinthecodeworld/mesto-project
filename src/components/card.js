@@ -1,5 +1,5 @@
 import { openPopUp, closePopUp } from './modal.js';
-import { apiconfig, postCard, deleteCard } from './api.js';
+import { apiconfig, postCard, deleteCard, toggleLike } from './api.js';
 
 const cardsTemplate = document.querySelector('#card-template');
 const cardsList = document.querySelector('.cards__gallery');
@@ -63,6 +63,10 @@ export function createSingleCard(cardData) {
 }
   const likeButton = card.querySelector('.cards__like-button');
   likeButton.addEventListener('click', () => {
+    const isLiked = likeButton.classList.contains('cards__like-button_active');
+    toggleLike(card.id, isLiked, likeCounter).then(data => {
+      likeCounter.textContent = data.likes.length;
+    });
     likeButton.classList.toggle('cards__like-button_active');
   });
   cardImage.addEventListener('click', openImage);

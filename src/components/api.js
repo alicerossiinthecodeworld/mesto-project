@@ -75,3 +75,18 @@ export function deleteCard(id){
     console.error('Error:', error);
   });
 }
+
+export function toggleLike(cardId, isLiked) {
+  const method = isLiked ? 'DELETE' : 'PUT';
+  return fetch(`${apiconfig.baseUrl}/cards/likes/${cardId}`, {
+    method,
+    headers: apiconfig.headers
+  })
+  .then(res => res.json())
+  .then((result) => {
+    return result;
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+}
