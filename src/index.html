@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0">
@@ -24,10 +25,13 @@
       <ul class="cards__gallery"></ul>
       <template id="card-template">
         <li class="cards__item">
-          <img class="cards__picture" src="" alt="">
+          <img class="cards__picture">
           <div class="cards__text-zone">
             <h2 class="cards__text"></h2>
-            <button class="cards__like-button" type="button"></button>
+            <div class="cards__like-container">
+              <button class="cards__like-button" type="button"></button>
+              <p class="cards__like-counter">0</p>
+            </div>
           </div>
           <button class="cards__delete-button" type="button"></button>
         </li>
@@ -42,9 +46,13 @@
       <button class="pop-up__close" type="button"></button>
       <h2 class="pop-up__title">Редактировать профиль</h2>
       <form name="profile_edit-form" class="pop-up__form" novalidate>
-        <input type="text" placeholder='Имя' name='name' class="pop-up__input" minlength="2" maxlength="40" pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" required>
+        <input type="text" placeholder='Имя' name='name' class="pop-up__input" minlength="2" maxlength="40"
+          pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$"
+          data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" required>
         <span class="pop-up__error name-error"></span>
-        <input type="text" placeholder='Профессия' name='profession' class="pop-up__input" minlength="2" maxlength="200" pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" required>
+        <input type="text" placeholder='Профессия' name='profession' class="pop-up__input" minlength="2" maxlength="200"
+          pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$"
+          data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" required>
         <span class="pop-up__error profession-error"></span>
         <button class="pop-up__submit" type="submit">Сохранить</button>
       </form>
@@ -55,7 +63,9 @@
       <button class="pop-up__close" type="button"></button>
       <h2 class="pop-up__title">Новое место</h2>
       <form name="card_add-form" class="pop-up__form" novalidate>
-        <input type="text" placeholder='Название' name='title' class="pop-up__input" minlength="2" maxlength="30" pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" required>
+        <input type="text" placeholder='Название' name='title' class="pop-up__input" minlength="2" maxlength="30"
+          pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$"
+          data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" required>
         <span class="pop-up__error title-error"></span>
         <input type="url" placeholder='Ссылка на картинку' name='link' class="pop-up__input" required>
         <span class="pop-up__error link-error"></span>

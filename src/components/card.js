@@ -1,6 +1,5 @@
 import { openPopUp, closePopUp } from './modal.js';
-import { postCard } from './api.js';
-import { setUserCards } from './index.js';
+import { apiconfig, postCard } from './api.js';
 
 const cardsTemplate = document.querySelector('#card-template');
 const cardsList = document.querySelector('.cards__gallery');
@@ -21,29 +20,46 @@ export function addCard(evt) {
   };
 
   postCard(cardData.name, cardData.link)
-  const card = createSingleCard(cardData);
-  cardsList.prepend(card);
-
-  evt.target.reset()
-
-  closePopUp(cardAddPopUp);
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      const card = createSingleCard(data);
+      cardsList.prepend(card);
+      card._id = data._id;
+      evt.target.reset();
+      closePopUp(cardAddPopUp);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
-
 
 
 export function createSingleCard(cardData) {
   const card = cardsTemplate.content.cloneNode(true);
   const cardImage = card.querySelector('.cards__picture');
+  const likeCounter = card.querySelector('.cards__like-counter')
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
+  card.id = cardData._id;
+  if (cardData.likeCounter){
+    likeCounter.textContent = cardData.likes.length;
+  }
   const cardText = card.querySelector('.cards__text');
   cardText.textContent = cardData.name;
 
   const deleteButton = card.querySelector('.cards__delete-button');
+  if (cardData.owner._id !== apiconfig.id){
+    const deleteButton = card.querySelector('.cards__delete-button');
+    deleteButton.remove();
+  }
+  else{
   deleteButton.addEventListener('click', (evt) => {
     const cardElement = evt.target.closest('.cards__item');
     cardElement.remove();
   });
+}
   const likeButton = card.querySelector('.cards__like-button');
   likeButton.addEventListener('click', () => {
     likeButton.classList.toggle('cards__like-button_active');

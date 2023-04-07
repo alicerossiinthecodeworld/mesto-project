@@ -94,12 +94,12 @@ function setUserInfo() {
 }
 
 export function setUserCards() {
-  let initialCards;
+  let cards;
 
   getCards()
     .then(result => {
-      initialCards = result;
-      createCard(initialCards);
+      cards = result;
+      createCard(cards);
     })
     .catch(error => {
       console.error(error);

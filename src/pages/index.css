@@ -39,3 +39,5 @@
 @import url("../blocks/pop-up/__input/_error/pop-up__input_error.css");
 @import url("../blocks/pop-up/_type/pop-up_type_image.css");
 @import url("../blocks/pop-up/__figure/pop-up__figure.css");
+@import url("../blocks/cards/__like-counter/cards__like-counter.css");
+@import url("../blocks/cards/__like-container/cards__like-container.css");
