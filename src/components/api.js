@@ -63,3 +63,15 @@ export function postCard(name, link) {
   });
 }
 
+export function deleteCard(id){
+  return fetch(`${apiconfig.baseUrl}/cards/${id}`, {
+    method: 'DELETE',
+    headers: apiconfig.headers,
+  })
+  .then(response => {
+    console.log(response);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}

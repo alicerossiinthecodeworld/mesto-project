@@ -1,5 +1,5 @@
 import { openPopUp, closePopUp } from './modal.js';
-import { apiconfig, postCard } from './api.js';
+import { apiconfig, postCard, deleteCard } from './api.js';
 
 const cardsTemplate = document.querySelector('#card-template');
 const cardsList = document.querySelector('.cards__gallery');
@@ -56,6 +56,7 @@ export function createSingleCard(cardData) {
   }
   else{
   deleteButton.addEventListener('click', (evt) => {
+    deleteCard(card.id);
     const cardElement = evt.target.closest('.cards__item');
     cardElement.remove();
   });
