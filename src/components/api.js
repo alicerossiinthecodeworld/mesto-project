@@ -47,3 +47,18 @@ export function getCards(){
     });
   }
 }
+
+export function postCard(name, link) {
+  return fetch(`${apiconfig.baseUrl}/cards`, {
+    method: 'POST',
+    headers: apiconfig.headers,
+    body: JSON.stringify({
+      name,
+      link
+    })
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+

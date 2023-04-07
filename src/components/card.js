@@ -1,4 +1,6 @@
 import { openPopUp, closePopUp } from './modal.js';
+import { postCard } from './api.js';
+import { setUserCards } from './index.js';
 
 const cardsTemplate = document.querySelector('#card-template');
 const cardsList = document.querySelector('.cards__gallery');
@@ -18,6 +20,7 @@ export function addCard(evt) {
     link: linkInput.value
   };
 
+  postCard(cardData.name, cardData.link)
   const card = createSingleCard(cardData);
   cardsList.prepend(card);
 
