@@ -1,7 +1,7 @@
 import('../pages/index.css');
 import { createCard, addCard, cardAddButton, cardAddForm, cardAddPopUp, titleInput, linkInput } from './card.js';
 import { openPopUp, closePopUp, handleClickOverlay, handleEscKey } from './modal.js';
-import { enableValidation, hideInputError} from './validate.js';
+import { blockSubmitButton, enableValidation, hideInputError} from './validate.js';
 
 
 export const config = {
@@ -86,15 +86,17 @@ cardAddButton.addEventListener("click", () => {
   const inputs = cardAddPopUp.querySelectorAll(config.inputSelector);
   inputs.forEach((input) => { hideInputError(input, config); })
   openPopUp(cardAddPopUp);
-  cardAddForm.addEventListener('submit', addCard);
+  const buttonElement = cardAddPopUp.querySelector(config.submitButtonSelector);
+  blockSubmitButton(buttonElement, config.inactiveButtonClass)
 });
 
 document.addEventListener('DOMContentLoaded', () => {
   enableValidation(config);
 });
 
+
+cardAddForm.addEventListener('submit', addCard);
 const popUpList = document.querySelectorAll(config.popUpSelector);
 popUpList.forEach((popUp) => {
   popUp.addEventListener('click', handleClickOverlay);
 });
-document.addEventListener('keydown', handleEscKey); 
