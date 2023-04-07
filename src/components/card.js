@@ -1,5 +1,6 @@
-import { openPopUp, closePopUp } from './modal.js';
+import { openPopUp, closePopUp, hideLoading, showLoading } from './modal.js';
 import { apiconfig, postCard, deleteCard, toggleLike } from './api.js';
+import { config } from './index.js';
 
 const cardsTemplate = document.querySelector('#card-template');
 const cardsList = document.querySelector('.cards__gallery');
@@ -13,6 +14,8 @@ const image = document.querySelector(".pop-up__image");
 const imageText = document.querySelector('.pop-up__image-text');
 
 export function addCard(evt) {
+  const buttonElement = cardAddPopUp.querySelector(config.submitButtonSelector);
+  showLoading(buttonElement);
   evt.preventDefault();
   const cardData = {
     name: titleInput.value,
@@ -28,6 +31,7 @@ export function addCard(evt) {
       cardsList.prepend(card);
       card._id = data._id;
       evt.target.reset();
+      hideLoading(buttonElement)
       closePopUp(cardAddPopUp);
     })
     .catch((err) => {

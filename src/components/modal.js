@@ -22,3 +22,13 @@ export function handleClickOverlay(event) {
     closePopUp(event.currentTarget, {});
   }
 }
+
+export function showLoading(button) {
+  button.textContent = 'Сохранение...';
+  button.disabled = true;
+}
+
+export function hideLoading(button) {
+  button.textContent = 'Сохранить';
+  button.disabled = false;
+}

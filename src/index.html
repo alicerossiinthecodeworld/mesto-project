@@ -13,7 +13,10 @@
   </header>
   <main class="content">
     <section class="profile">
-      <img src="" alt="аватар" class="profile__avatar-image">
+      <div class="profile__avatar-container">
+        <img src="" alt="аватар" class="profile__avatar-image">
+        <img class="edit-icon" src="<%=require('./images/avatar_edit.svg')%>" alt="Edit" title="Редактировать">
+      </div>
       <div class="profile__info">
         <h1 class="profile__name"></h1>
         <p class="profile__description"></p>
@@ -82,4 +85,16 @@
       </figure>
     </div>
   </div>
+  <div class="pop-up avatar__change__pop-up">
+    <div class="pop-up__container">
+      <button class="pop-up__close" type="button"></button>
+      <h2 class="pop-up__title">Обновить аватар</h2>
+      <form name="change-avatar-form" class="pop-up__form" novalidate>
+        <input type="url" placeholder="Ссылка на аватар" name='avatar-link' class="pop-up__input" required>
+        <span class="pop-up__error avatar-link-error"></span>
+        <button class="pop-up__submit" type="submit">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  
 </body>

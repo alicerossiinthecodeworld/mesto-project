@@ -7,17 +7,17 @@ export const apiconfig = {
   id: "51fb06311bd4f4f79497ac7b"
 }
 
-export function getUser(){
+export function getUser() {
   return fetch(`${apiconfig.baseUrl}/users/me`, {
     headers: apiconfig.headers
   })
-  .then(res => res.json())
-  .then((result) => {
-    return result;
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+    .then(res => res.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
 export function updateProfile(name, about) {
@@ -29,23 +29,23 @@ export function updateProfile(name, about) {
       about
     })
   })
-  .catch(error => {
-    console.log('Error:', error);
-  });
+    .catch(error => {
+      console.log('Error:', error);
+    });
 }
 
-export function getCards(){
+export function getCards() {
   {
     return fetch(`${apiconfig.baseUrl}/cards`, {
       headers: apiconfig.headers
     })
-    .then(res => res.json())
-    .then((result) => {
-      return result;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      .then(res => res.json())
+      .then((result) => {
+        return result;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 }
 
@@ -58,22 +58,22 @@ export function postCard(name, link) {
       link
     })
   })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+    .catch(error => {
+      console.error('Error:', error);
+    });
 }
 
-export function deleteCard(id){
+export function deleteCard(id) {
   return fetch(`${apiconfig.baseUrl}/cards/${id}`, {
     method: 'DELETE',
     headers: apiconfig.headers,
   })
-  .then(response => {
-    console.log(response);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 }
 
 export function toggleLike(cardId, isLiked) {
@@ -82,11 +82,31 @@ export function toggleLike(cardId, isLiked) {
     method,
     headers: apiconfig.headers
   })
-  .then(res => res.json())
-  .then((result) => {
-    return result;
+    .then(res => res.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+
+export function changeAvatar(newAvatarURL) {
+  fetch(`${apiconfig.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: apiconfig.headers,
+    body: JSON.stringify({
+      avatar: newAvatarURL,
+    }),
   })
-  .catch((error) => {
-    console.error(error);
-  });
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 }

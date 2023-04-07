@@ -1,0 +1,24 @@
+.profile__avatar-container {
+  position: relative;
+  display: inline-block;
+}
+.profile__avatar-container img {
+  width: 100px;
+  height: 100px;
+}
+
+.profile__avatar-container .edit-icon {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 42%;
+  transform: translate(-50%, -50%);
+  width:26px;
+  height: 26px;
+  z-index: 1;
+  cursor: pointer;
+  border: none;
+}
+.profile__avatar-container:hover .edit-icon {
+  display: block;
+}

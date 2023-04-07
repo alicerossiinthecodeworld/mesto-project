@@ -1,8 +1,8 @@
 import('../pages/index.css');
 import { createCard, addCard, cardAddButton, cardAddForm, cardAddPopUp, titleInput, linkInput } from './card.js';
-import { openPopUp, closePopUp, handleClickOverlay } from './modal.js';
+import { openPopUp, closePopUp, handleClickOverlay, hideLoading, showLoading} from './modal.js';
 import { blockSubmitButton, enableValidation, hideInputError} from './validate.js';
-import { getUser, getCards, updateProfile} from './api.js';
+import { getUser, getCards, updateProfile, changeAvatar} from './api.js';
 
 export const config = {
   popUpSelector: '.pop-up', 
@@ -24,6 +24,11 @@ const nameInput = profileEditPopUp.querySelector('.pop-up__input[name="name"]');
 const jobInput = profileEditPopUp.querySelector('.pop-up__input[name="profession"]');
 const profileEditForm = profileEditPopUp.querySelector('.pop-up__form');
 const profileAvatar = document.querySelector('.profile__avatar-image');
+const avatarPopUp = document.querySelector('.avatar__change__pop-up');
+const avatarEditForm = avatarPopUp.querySelector('.pop-up__form')
+const avatarEditIcon = document.querySelector('.edit-icon')
+const avatarLinkInput = avatarPopUp.querySelector('.pop-up__input[name="avatar-link"]');
+
 
 closeButtons.forEach((button) => {
   const popUp = button.closest('.pop-up');
@@ -32,14 +37,15 @@ closeButtons.forEach((button) => {
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-
   const name = nameInput.value;
   const about = jobInput.value;
-
+  const buttonElement = profileEditPopUp.querySelector(config.submitButtonSelector);
+  showLoading(buttonElement);
   updateProfile(name, about)
   .then(userData => {
     profileName.textContent = userData.name;
     profileJob.textContent = userData.about;
+    hideLoading(buttonElement);
     closePopUp(profileEditPopUp);
     setUserInfo();
   });
@@ -73,6 +79,26 @@ document.addEventListener('DOMContentLoaded', () => {
 cardAddForm.addEventListener('submit', (evt) => {
   addCard(evt);
 });
+
+avatarEditForm.addEventListener('submit', (evt) => {
+  const buttonElement = avatarEditForm.querySelector(config.submitButtonSelector);
+  showLoading(buttonElement);
+  changeAvatar(avatarLinkInput.value);
+  hideLoading(buttonElement);
+  closePopUp(avatarPopUp)
+});
+
+function openAvatarForm(){
+  const inputs = avatarPopUp.querySelectorAll(config.inputSelector);
+  inputs.forEach((input) => { hideInputError(input, config); })
+  avatarLinkInput.value='';
+  console.log(avatarPopUp);
+  openPopUp(avatarPopUp);
+  const buttonElement = cardAddPopUp.querySelector(config.submitButtonSelector);
+  blockSubmitButton(buttonElement, config.inactiveButtonClass);
+}
+
+avatarEditIcon.addEventListener('click', openAvatarForm)
 
 
 const popUpList = document.querySelectorAll(config.popUpSelector);
