@@ -314,7 +314,7 @@ __webpack_require__.d(__webpack_exports__, {
   "v": () => (/* binding */ config)
 });
 
-// UNUSED EXPORTS: setUserCards
+// UNUSED EXPORTS: getUserCards
 
 ;// CONCATENATED MODULE: ./src/components/modal.js
 function closePopUp(popUp) {
@@ -329,21 +329,21 @@ function handleEscKey(event) {
   if (event.key === 'Escape') {
     var activePopUp = document.querySelector('.pop-up_opened');
     if (activePopUp) {
-      closePopUp(activePopUp, {});
+      closePopUp(activePopUp);
     }
   }
 }
 function handleClickOverlay(event) {
   if (event.target === event.currentTarget) {
-    closePopUp(event.currentTarget, {});
+    closePopUp(event.currentTarget);
   }
 }
 function showLoading(button) {
   button.textContent = 'Сохранение...';
   button.disabled = true;
 }
-function hideLoading(button) {
-  button.textContent = 'Сохранить';
+function hideLoading(button, text) {
+  button.textContent = text;
   button.disabled = false;
 }
 ;// CONCATENATED MODULE: ./src/components/api.js
@@ -355,16 +355,17 @@ var apiconfig = {
   },
   id: "51fb06311bd4f4f79497ac7b"
 };
+function checkResponse(response) {
+  if (response.ok) {
+    return response.json();
+  } else {
+    console.log("HTTP \u043E\u0448\u0438\u0431\u043A\u0430! \u0441\u0442\u0430\u0442\u0443\u0441: ".concat(response.status));
+  }
+}
 function getUser() {
   return fetch("".concat(apiconfig.baseUrl, "/users/me"), {
     headers: apiconfig.headers
-  }).then(function (res) {
-    return res.json();
-  }).then(function (result) {
-    return result;
-  }).catch(function (error) {
-    console.error(error);
-  });
+  }).then(checkResponse);
 }
 function updateProfile(name, about) {
   return fetch("".concat(apiconfig.baseUrl, "/users/me"), {
@@ -374,21 +375,13 @@ function updateProfile(name, about) {
       name: name,
       about: about
     })
-  }).catch(function (error) {
-    console.log('Error:', error);
-  });
+  }).then(checkResponse);
 }
 function getCards() {
   {
     return fetch("".concat(apiconfig.baseUrl, "/cards"), {
       headers: apiconfig.headers
-    }).then(function (res) {
-      return res.json();
-    }).then(function (result) {
-      return result;
-    }).catch(function (error) {
-      console.error(error);
-    });
+    }).then(checkResponse);
   }
 }
 function postCard(name, link) {
@@ -399,47 +392,29 @@ function postCard(name, link) {
       name: name,
       link: link
     })
-  }).catch(function (error) {
-    console.error('Error:', error);
-  });
+  }).then(checkResponse);
 }
 function deleteCard(id) {
   return fetch("".concat(apiconfig.baseUrl, "/cards/").concat(id), {
     method: 'DELETE',
     headers: apiconfig.headers
-  }).then(function (response) {
-    return response;
-  }).catch(function (error) {
-    console.error('Error:', error);
-  });
+  }).then(checkResponse);
 }
 function toggleLike(cardId, isLiked) {
   var method = isLiked ? 'DELETE' : 'PUT';
   return fetch("".concat(apiconfig.baseUrl, "/cards/likes/").concat(cardId), {
     method: method,
     headers: apiconfig.headers
-  }).then(function (res) {
-    return res.json();
-  }).then(function (result) {
-    return result;
-  }).catch(function (error) {
-    console.error(error);
-  });
+  }).then(checkResponse);
 }
 function changeAvatar(newAvatarURL) {
-  fetch("".concat(apiconfig.baseUrl, "/users/me/avatar"), {
+  return fetch("".concat(apiconfig.baseUrl, "/users/me/avatar"), {
     method: 'PATCH',
     headers: apiconfig.headers,
     body: JSON.stringify({
       avatar: newAvatarURL
     })
-  }).then(function (response) {
-    return response.json();
-  }).then(function (data) {
-    console.log(data);
-  }).catch(function (error) {
-    console.error(error);
-  });
+  }).then(checkResponse);
 }
 ;// CONCATENATED MODULE: ./src/components/card.js
 
@@ -457,23 +432,23 @@ var card_image = document.querySelector(".pop-up__image");
 var imageText = document.querySelector('.pop-up__image-text');
 function addCard(evt) {
   var buttonElement = cardAddPopUp.querySelector(config.submitButtonSelector);
+  var text = buttonElement.textContent;
   showLoading(buttonElement);
   evt.preventDefault();
   var cardData = {
     name: titleInput.value,
     link: linkInput.value
   };
-  postCard(cardData.name, cardData.link).then(function (res) {
-    return res.json();
-  }).then(function (data) {
+  postCard(cardData.name, cardData.link).then(function (data) {
     var card = createSingleCard(data);
     cardsList.prepend(card);
     card._id = data._id;
     evt.target.reset();
-    hideLoading(buttonElement);
-    closePopUp(cardAddPopUp);
   }).catch(function (err) {
     console.log(err);
+  }).finally(function () {
+    hideLoading(buttonElement, text);
+    closePopUp(cardAddPopUp);
   });
 }
 function createSingleCard(cardData) {
@@ -504,8 +479,10 @@ function createSingleCard(cardData) {
     var isLiked = likeButton.classList.contains('cards__like-button_active');
     toggleLike(card.id, isLiked, likeCounter).then(function (data) {
       likeCounter.textContent = data.likes.length;
+      likeButton.classList.toggle('cards__like-button_active');
+    }).catch(function (error) {
+      console.error(error);
     });
-    likeButton.classList.toggle('cards__like-button_active');
   });
   cardImage.addEventListener('click', openImage);
   return card;
@@ -625,7 +602,7 @@ var profileEditForm = profileEditPopUp.querySelector('.pop-up__form');
 var profileAvatar = document.querySelector('.profile__avatar-image');
 var avatarPopUp = document.querySelector('.avatar__change__pop-up');
 var avatarEditForm = avatarPopUp.querySelector('.pop-up__form');
-var avatarEditIcon = document.querySelector('.edit-icon');
+var avatarEdit = document.querySelector('.profile__avatar-container');
 var avatarLinkInput = avatarPopUp.querySelector('.pop-up__input[name="avatar-link"]');
 closeButtons.forEach(function (button) {
   var popUp = button.closest('.pop-up');
@@ -638,12 +615,16 @@ function handleProfileFormSubmit(evt) {
   var name = nameInput.value;
   var about = jobInput.value;
   var buttonElement = profileEditPopUp.querySelector(config.submitButtonSelector);
+  var text = buttonElement.textContent;
   showLoading(buttonElement);
   updateProfile(name, about).then(function (userData) {
+    console.log(userData);
     profileName.textContent = userData.name;
     profileJob.textContent = userData.about;
-    profileAvatar.src = userData.avatar;
-    hideLoading(buttonElement);
+  }).catch(function (error) {
+    console.error(error);
+  }).finally(function () {
+    hideLoading(buttonElement, text);
     closePopUp(profileEditPopUp);
   });
 }
@@ -676,10 +657,15 @@ cardAddForm.addEventListener('submit', function (evt) {
 });
 avatarEditForm.addEventListener('submit', function (evt) {
   var buttonElement = avatarEditForm.querySelector(config.submitButtonSelector);
+  var text = buttonElement.textContent;
   showLoading(buttonElement);
-  changeAvatar(avatarLinkInput.value);
-  hideLoading(buttonElement);
-  closePopUp(avatarPopUp);
+  changeAvatar(avatarLinkInput.value).catch(function (error) {
+    console.error(error);
+  }).finally(function () {
+    profileAvatar.src = avatarLinkInput.value;
+    hideLoading(buttonElement, text);
+    closePopUp(avatarPopUp);
+  });
 });
 function openAvatarForm() {
   var inputs = avatarPopUp.querySelectorAll(config.inputSelector);
@@ -689,26 +675,30 @@ function openAvatarForm() {
   avatarLinkInput.value = '';
   console.log(avatarPopUp);
   openPopUp(avatarPopUp);
-  var buttonElement = cardAddPopUp.querySelector(config.submitButtonSelector);
+  var buttonElement = avatarPopUp.querySelector(config.submitButtonSelector);
   blockSubmitButton(buttonElement, config.inactiveButtonClass);
 }
-avatarEditIcon.addEventListener('click', openAvatarForm);
+avatarEdit.addEventListener('click', openAvatarForm);
 var popUpList = document.querySelectorAll(config.popUpSelector);
 popUpList.forEach(function (popUp) {
   popUp.addEventListener('click', handleClickOverlay);
 });
 window.addEventListener('load', function () {
-  setUserInfo();
-  setUserCards();
+  Promise.all([getUserInfo(), getUserCards()]).then(function (values) {
+    getUserInfo(values[0]);
+    getUserCards(values[1]);
+  }).catch(function (err) {
+    console.log(err);
+  });
 });
-function setUserInfo() {
+function getUserInfo() {
   getUser().then(function (result) {
     profileName.textContent = result.name;
     profileJob.textContent = result.about;
     profileAvatar.src = result.avatar;
   });
 }
-function setUserCards() {
+function getUserCards() {
   var cards;
   getCards().then(function (result) {
     cards = result;
