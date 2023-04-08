@@ -642,9 +642,9 @@ function handleProfileFormSubmit(evt) {
   updateProfile(name, about).then(function (userData) {
     profileName.textContent = userData.name;
     profileJob.textContent = userData.about;
+    profileAvatar.src = userData.avatar;
     hideLoading(buttonElement);
     closePopUp(profileEditPopUp);
-    setUserInfo();
   });
 }
 profileEditButton.addEventListener("click", function () {
