@@ -1,4 +1,6 @@
-import { openPopUp, closePopUp } from './modal.js';
+import { openPopUp, closePopUp, hideLoading, showLoading } from './modal.js';
+import { apiconfig, postCard, deleteCard, toggleLike } from './api.js';
+import { config } from './index.js';
 
 const cardsTemplate = document.querySelector('#card-template');
 const cardsList = document.querySelector('.cards__gallery');
@@ -12,37 +14,63 @@ const image = document.querySelector(".pop-up__image");
 const imageText = document.querySelector('.pop-up__image-text');
 
 export function addCard(evt) {
+  const buttonElement = cardAddPopUp.querySelector(config.submitButtonSelector);
+  showLoading(buttonElement);
   evt.preventDefault();
   const cardData = {
     name: titleInput.value,
     link: linkInput.value
   };
 
-  const card = createSingleCard(cardData);
-  cardsList.prepend(card);
-
-  evt.target.reset()
-
-  closePopUp(cardAddPopUp);
+  postCard(cardData.name, cardData.link)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      const card = createSingleCard(data);
+      cardsList.prepend(card);
+      card._id = data._id;
+      evt.target.reset();
+      hideLoading(buttonElement)
+      closePopUp(cardAddPopUp);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
-
 
 
 export function createSingleCard(cardData) {
   const card = cardsTemplate.content.cloneNode(true);
   const cardImage = card.querySelector('.cards__picture');
+  const likeCounter = card.querySelector('.cards__like-counter')
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
+  card.id = cardData._id;
+  if (cardData.likeCounter){
+    likeCounter.textContent = cardData.likes.length;
+  }
   const cardText = card.querySelector('.cards__text');
   cardText.textContent = cardData.name;
 
   const deleteButton = card.querySelector('.cards__delete-button');
+  if (cardData.owner._id !== apiconfig.id){
+    const deleteButton = card.querySelector('.cards__delete-button');
+    deleteButton.remove();
+  }
+  else{
   deleteButton.addEventListener('click', (evt) => {
+    deleteCard(card.id);
     const cardElement = evt.target.closest('.cards__item');
     cardElement.remove();
   });
+}
   const likeButton = card.querySelector('.cards__like-button');
   likeButton.addEventListener('click', () => {
+    const isLiked = likeButton.classList.contains('cards__like-button_active');
+    toggleLike(card.id, isLiked, likeCounter).then(data => {
+      likeCounter.textContent = data.likes.length;
+    });
     likeButton.classList.toggle('cards__like-button_active');
   });
   cardImage.addEventListener('click', openImage);
