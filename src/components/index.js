@@ -47,13 +47,13 @@ function handleProfileFormSubmit(evt) {
       console.log(userData);
       profileName.textContent = userData.name;
       profileJob.textContent = userData.about;
+      closePopUp(profileEditPopUp);
     })
     .catch(error => {
       console.error(error);
     })
     .finally(() => {
       hideLoading(buttonElement, text);
-      closePopUp(profileEditPopUp);
     });
 }
 
@@ -90,14 +90,16 @@ avatarEditForm.addEventListener('submit', (evt) => {
   const buttonElement = avatarEditForm.querySelector(config.submitButtonSelector);
   const text = buttonElement.textContent;
   showLoading(buttonElement);
-  changeAvatar(avatarLinkInput.value)
+  changeAvatar(avatarLinkInput.value).then((data)=>{
+    console.log(data);
+    profileAvatar.src = data.avatar;
+    closePopUp(avatarPopUp);
+  })
     .catch((error) => {
       console.error(error);
     })
     .finally(() => {
-    profileAvatar.src = avatarLinkInput.value;
     hideLoading(buttonElement, text);
-    closePopUp(avatarPopUp);
   });
 });
 
@@ -126,8 +128,10 @@ window.addEventListener('load', () => {
     getUserCards()
   ])
     .then((values) => {
-      getUserInfo(values[0]);
-      getUserCards(values[1]);
+      profileName.textContent = values[0].name;
+      profileJob.textContent = values[0].about;
+      profileAvatar.src = values[0].avatar;
+      createCard(values[1]);
     })
     .catch((err) => {
       console.log(err);
@@ -144,12 +148,10 @@ function getUserInfo() {
 }
 
 export function getUserCards() {
-  let cards;
-
   getCards()
     .then(result => {
-      cards = result;
-      createCard(cards);
+
+      createCard(result);
     })
     .catch(error => {
       console.error(error);

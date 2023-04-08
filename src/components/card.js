@@ -29,13 +29,13 @@ export function addCard(evt) {
       cardsList.prepend(card);
       card._id = data._id;
       evt.target.reset();
+      closePopUp(cardAddPopUp);
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
       hideLoading(buttonElement, text);
-      closePopUp(cardAddPopUp);
     });
 }
 
