@@ -14,31 +14,30 @@ const image = document.querySelector(".pop-up__image");
 const imageText = document.querySelector('.pop-up__image-text');
 
 export function addCard(evt) {
+
   const buttonElement = cardAddPopUp.querySelector(config.submitButtonSelector);
+  const text = buttonElement.textContent;
   showLoading(buttonElement);
   evt.preventDefault();
   const cardData = {
     name: titleInput.value,
     link: linkInput.value
   };
-
   postCard(cardData.name, cardData.link)
-    .then((res) => {
-      return res.json();
-    })
     .then((data) => {
       const card = createSingleCard(data);
       cardsList.prepend(card);
       card._id = data._id;
       evt.target.reset();
-      hideLoading(buttonElement)
-      closePopUp(cardAddPopUp);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      hideLoading(buttonElement, text);
+      closePopUp(cardAddPopUp);
     });
 }
-
 
 export function createSingleCard(cardData) {
   const card = cardsTemplate.content.cloneNode(true);
@@ -47,32 +46,37 @@ export function createSingleCard(cardData) {
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
   card.id = cardData._id;
-  if (cardData.likeCounter){
+  if (cardData.likeCounter) {
     likeCounter.textContent = cardData.likes.length;
   }
   const cardText = card.querySelector('.cards__text');
   cardText.textContent = cardData.name;
 
   const deleteButton = card.querySelector('.cards__delete-button');
-  if (cardData.owner._id !== apiconfig.id){
+  if (cardData.owner._id !== apiconfig.id) {
     const deleteButton = card.querySelector('.cards__delete-button');
     deleteButton.remove();
   }
-  else{
-  deleteButton.addEventListener('click', (evt) => {
-    deleteCard(card.id);
-    const cardElement = evt.target.closest('.cards__item');
-    cardElement.remove();
-  });
-}
+  else {
+    deleteButton.addEventListener('click', (evt) => {
+      deleteCard(card.id);
+      const cardElement = evt.target.closest('.cards__item');
+      cardElement.remove();
+    });
+  }
   const likeButton = card.querySelector('.cards__like-button');
   likeButton.addEventListener('click', () => {
     const isLiked = likeButton.classList.contains('cards__like-button_active');
-    toggleLike(card.id, isLiked, likeCounter).then(data => {
-      likeCounter.textContent = data.likes.length;
-    });
-    likeButton.classList.toggle('cards__like-button_active');
+    toggleLike(card.id, isLiked, likeCounter)
+      .then(data => {
+        likeCounter.textContent = data.likes.length;
+        likeButton.classList.toggle('cards__like-button_active');
+      })
+      .catch(error => {
+        console.error(error);
+      });
   });
+  
   cardImage.addEventListener('click', openImage);
   return card;
 }

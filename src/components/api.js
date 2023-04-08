@@ -7,17 +7,18 @@ export const apiconfig = {
   id: "51fb06311bd4f4f79497ac7b"
 }
 
+function checkResponse(response) {
+  if (response.ok) {
+    return response.json();
+  } else {
+    console.log(`HTTP ошибка! статус: ${response.status}`);
+  }
+}
+
 export function getUser() {
   return fetch(`${apiconfig.baseUrl}/users/me`, {
     headers: apiconfig.headers
-  })
-    .then(res => res.json())
-    .then((result) => {
-      return result;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  }).then(checkResponse)
 }
 
 export function updateProfile(name, about) {
@@ -29,24 +30,14 @@ export function updateProfile(name, about) {
       about
     })
   })
-    .catch(error => {
-      console.log('Error:', error);
-    });
+  .then(checkResponse)
 }
-
 export function getCards() {
   {
     return fetch(`${apiconfig.baseUrl}/cards`, {
       headers: apiconfig.headers
     })
-      .then(res => res.json())
-      .then((result) => {
-        return result;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+      .then(checkResponse)}
 }
 
 export function postCard(name, link) {
@@ -58,9 +49,7 @@ export function postCard(name, link) {
       link
     })
   })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+  .then(checkResponse)
 }
 
 export function deleteCard(id) {
@@ -68,12 +57,7 @@ export function deleteCard(id) {
     method: 'DELETE',
     headers: apiconfig.headers,
   })
-    .then(response => {
-      return response;
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+  .then(checkResponse)
 }
 
 export function toggleLike(cardId, isLiked) {
@@ -82,31 +66,17 @@ export function toggleLike(cardId, isLiked) {
     method,
     headers: apiconfig.headers
   })
-    .then(res => res.json())
-    .then((result) => {
-      return result;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  .then(checkResponse);
 }
 
 
 export function changeAvatar(newAvatarURL) {
-  fetch(`${apiconfig.baseUrl}/users/me/avatar`, {
+  return fetch(`${apiconfig.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
     headers: apiconfig.headers,
     body: JSON.stringify({
       avatar: newAvatarURL,
     }),
   })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  .then(checkResponse);
 }
