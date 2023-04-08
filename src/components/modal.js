@@ -12,14 +12,14 @@ export function handleEscKey(event) {
   if (event.key === 'Escape') {
     const activePopUp = document.querySelector('.pop-up_opened');
     if (activePopUp) {
-      closePopUp(activePopUp, {});
+      closePopUp(activePopUp);
     }
   }
 }
 
 export function handleClickOverlay(event) {
   if (event.target === event.currentTarget) {
-    closePopUp(event.currentTarget, {});
+    closePopUp(event.currentTarget);
   }
 }
 
@@ -28,7 +28,7 @@ export function showLoading(button) {
   button.disabled = true;
 }
 
-export function hideLoading(button) {
-  button.textContent = 'Сохранить';
+export function hideLoading(button, text) {
+  button.textContent = text;
   button.disabled = false;
 }

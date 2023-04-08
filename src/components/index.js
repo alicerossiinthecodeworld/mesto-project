@@ -1,11 +1,11 @@
 import('../pages/index.css');
 import { createCard, addCard, cardAddButton, cardAddForm, cardAddPopUp, titleInput, linkInput } from './card.js';
-import { openPopUp, closePopUp, handleClickOverlay, hideLoading, showLoading} from './modal.js';
-import { blockSubmitButton, enableValidation, hideInputError} from './validate.js';
-import { getUser, getCards, updateProfile, changeAvatar} from './api.js';
+import { openPopUp, closePopUp, handleClickOverlay, hideLoading, showLoading } from './modal.js';
+import { blockSubmitButton, enableValidation, hideInputError } from './validate.js';
+import { getUser, getCards, updateProfile, changeAvatar } from './api.js';
 
 export const config = {
-  popUpSelector: '.pop-up', 
+  popUpSelector: '.pop-up',
   formSelector: '.pop-up__form',
   inputSelector: '.pop-up__input',
   submitButtonSelector: '.pop-up__submit',
@@ -26,7 +26,7 @@ const profileEditForm = profileEditPopUp.querySelector('.pop-up__form');
 const profileAvatar = document.querySelector('.profile__avatar-image');
 const avatarPopUp = document.querySelector('.avatar__change__pop-up');
 const avatarEditForm = avatarPopUp.querySelector('.pop-up__form')
-const avatarEditIcon = document.querySelector('.edit-icon')
+const avatarEdit = document.querySelector('.profile__avatar-container');
 const avatarLinkInput = avatarPopUp.querySelector('.pop-up__input[name="avatar-link"]');
 
 
@@ -40,15 +40,21 @@ function handleProfileFormSubmit(evt) {
   const name = nameInput.value;
   const about = jobInput.value;
   const buttonElement = profileEditPopUp.querySelector(config.submitButtonSelector);
+  const text = buttonElement.textContent;
   showLoading(buttonElement);
   updateProfile(name, about)
-  .then(userData => {
-    profileName.textContent = userData.name;
-    profileJob.textContent = userData.about;
-    hideLoading(buttonElement);
-    closePopUp(profileEditPopUp);
-    setUserInfo();
-  });
+    .then(userData => {
+      console.log(userData);
+      profileName.textContent = userData.name;
+      profileJob.textContent = userData.about;
+    })
+    .catch(error => {
+      console.error(error);
+    })
+    .finally(() => {
+      hideLoading(buttonElement, text);
+      closePopUp(profileEditPopUp);
+    });
 }
 
 profileEditButton.addEventListener("click", () => {
@@ -62,8 +68,8 @@ profileEditButton.addEventListener("click", () => {
 
 
 cardAddButton.addEventListener("click", () => {
-  titleInput.value=''
-  linkInput.value=''
+  titleInput.value = ''
+  linkInput.value = ''
   const inputs = cardAddPopUp.querySelectorAll(config.inputSelector);
   inputs.forEach((input) => { hideInputError(input, config); })
   openPopUp(cardAddPopUp);
@@ -82,23 +88,31 @@ cardAddForm.addEventListener('submit', (evt) => {
 
 avatarEditForm.addEventListener('submit', (evt) => {
   const buttonElement = avatarEditForm.querySelector(config.submitButtonSelector);
+  const text = buttonElement.textContent;
   showLoading(buttonElement);
-  changeAvatar(avatarLinkInput.value);
-  hideLoading(buttonElement);
-  closePopUp(avatarPopUp)
+  changeAvatar(avatarLinkInput.value)
+    .catch((error) => {
+      console.error(error);
+    })
+    .finally(() => {
+    profileAvatar.src = avatarLinkInput.value;
+    hideLoading(buttonElement, text);
+    closePopUp(avatarPopUp);
+  });
 });
 
-function openAvatarForm(){
+
+function openAvatarForm() {
   const inputs = avatarPopUp.querySelectorAll(config.inputSelector);
   inputs.forEach((input) => { hideInputError(input, config); })
-  avatarLinkInput.value='';
+  avatarLinkInput.value = '';
   console.log(avatarPopUp);
   openPopUp(avatarPopUp);
-  const buttonElement = cardAddPopUp.querySelector(config.submitButtonSelector);
+  const buttonElement = avatarPopUp.querySelector(config.submitButtonSelector);
   blockSubmitButton(buttonElement, config.inactiveButtonClass);
 }
 
-avatarEditIcon.addEventListener('click', openAvatarForm)
+avatarEdit.addEventListener('click', openAvatarForm)
 
 
 const popUpList = document.querySelectorAll(config.popUpSelector);
@@ -107,11 +121,21 @@ popUpList.forEach((popUp) => {
 });
 
 window.addEventListener('load', () => {
-  setUserInfo();
-  setUserCards();
+  Promise.all([
+    getUserInfo(),
+    getUserCards()
+  ])
+    .then((values) => {
+      getUserInfo(values[0]);
+      getUserCards(values[1]);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
 });
 
-function setUserInfo() {
+
+function getUserInfo() {
   getUser().then((result) => {
     profileName.textContent = result.name;
     profileJob.textContent = result.about;
@@ -119,7 +143,7 @@ function setUserInfo() {
   });
 }
 
-export function setUserCards() {
+export function getUserCards() {
   let cards;
 
   getCards()
