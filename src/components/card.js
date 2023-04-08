@@ -59,9 +59,14 @@ export function createSingleCard(cardData) {
   }
   else {
     deleteButton.addEventListener('click', (evt) => {
-      deleteCard(card.id);
-      const cardElement = evt.target.closest('.cards__item');
-      cardElement.remove();
+      deleteCard(card.id)
+        .then(() => {
+          const cardElement = evt.target.closest('.cards__item');
+          cardElement.remove();
+        })
+        .catch(error => {
+          console.error(error);
+        });
     });
   }
   const likeButton = card.querySelector('.cards__like-button');
@@ -76,7 +81,7 @@ export function createSingleCard(cardData) {
         console.error(error);
       });
   });
-  
+
   cardImage.addEventListener('click', openImage);
   return card;
 }
