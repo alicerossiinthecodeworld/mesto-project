@@ -124,8 +124,8 @@ popUpList.forEach((popUp) => {
 
 window.addEventListener('load', () => {
   Promise.all([
-    getUserInfo(),
-    getUserCards()
+    getUser(),
+    getCards()
   ])
     .then((values) => {
       profileName.textContent = values[0].name;
@@ -137,23 +137,3 @@ window.addEventListener('load', () => {
       console.log(err);
     })
 });
-
-
-function getUserInfo() {
-  getUser().then((result) => {
-    profileName.textContent = result.name;
-    profileJob.textContent = result.about;
-    profileAvatar.src = result.avatar;
-  });
-}
-
-export function getUserCards() {
-  getCards()
-    .then(result => {
-
-      createCard(result);
-    })
-    .catch(error => {
-      console.error(error);
-    });
-}
