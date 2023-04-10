@@ -12,7 +12,7 @@ export const linkInput = document.querySelector('.pop-up__input[name="link"]');
 const imagePopUp = document.querySelector('.pop-up_type_image');
 const image = document.querySelector(".pop-up__image");
 const imageText = document.querySelector('.pop-up__image-text');
-
+const cardDeletePopUp = document.querySelector('.card_delete__pop-up');
 export function addCard(evt) {
 
   const buttonElement = cardAddPopUp.querySelector(config.submitButtonSelector);
@@ -27,7 +27,6 @@ export function addCard(evt) {
     .then((data) => {
       const card = createSingleCard(data);
       cardsList.prepend(card);
-      card._id = data._id;
       evt.target.reset();
       closePopUp(cardAddPopUp);
     })
@@ -45,7 +44,8 @@ export function createSingleCard(cardData) {
   const likeCounter = card.querySelector('.cards__like-counter')
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
-  card.id = cardData._id;
+  card.id = cardData._id
+  cardImage.id = cardData._id;
   if (cardData.likeCounter) {
     likeCounter.textContent = cardData.likes.length;
   }
@@ -54,19 +54,13 @@ export function createSingleCard(cardData) {
 
   const deleteButton = card.querySelector('.cards__delete-button');
   if (cardData.owner._id !== apiconfig.id) {
-    const deleteButton = card.querySelector('.cards__delete-button');
     deleteButton.remove();
-  }
-  else {
+  } else {
     deleteButton.addEventListener('click', (evt) => {
-      deleteCard(card.id)
-        .then(() => {
-          const cardElement = evt.target.closest('.cards__item');
-          cardElement.remove();
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      openPopUp(cardDeletePopUp);
+      const cardElement = evt.target.closest('.cards__item');
+      const deleteForm = cardDeletePopUp.querySelector('.pop-up__form');
+      setDeleteFormListener(deleteForm, card.id, cardElement);
     });
   }
   const likeButton = card.querySelector('.cards__like-button');
@@ -84,6 +78,26 @@ export function createSingleCard(cardData) {
 
   cardImage.addEventListener('click', openImage);
   return card;
+}
+
+function setDeleteFormListener(deleteForm, cardId, cardElement) {
+  deleteForm.addEventListener('submit', (evt) => {
+    const deleteConfirm = cardDeletePopUp.querySelector('.pop-up__submit');
+    evt.preventDefault();
+    const text = deleteConfirm.textContent;
+    showLoading(deleteConfirm);
+    deleteCard(cardId)
+      .then(() => {
+        cardElement.remove();
+        closePopUp(cardDeletePopUp);
+      })
+      .catch(error => {
+        console.error(error);
+      })
+      .finally(() => {
+        hideLoading(deleteConfirm, text);
+      });
+  })
 }
 
 export function createCard(cardsData) {

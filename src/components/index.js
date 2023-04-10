@@ -127,11 +127,11 @@ window.addEventListener('load', () => {
     getUser(),
     getCards()
   ])
-    .then((values) => {
-      profileName.textContent = values[0].name;
-      profileJob.textContent = values[0].about;
-      profileAvatar.src = values[0].avatar;
-      createCard(values[1]);
+    .then(([user, cards]) => {
+      profileName.textContent = user.name;
+      profileJob.textContent = user.about;
+      profileAvatar.src = user.avatar;
+      createCard(cards);
     })
     .catch((err) => {
       console.log(err);
